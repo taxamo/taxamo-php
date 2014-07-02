@@ -1,0 +1,30 @@
+{
+  "name": "taxamo/taxamo-php",
+  "description": "Taxamo PHP Library",
+  "keywords": [
+    "taxamo",
+    "vat",
+    "tax",
+    "api"
+  ],
+  "homepage": "http://www.taxamo.com/",
+  "license": "Apache",
+  "authors": [
+    {
+      "name": "Taxamo",
+      "homepage": "https://github.com/taxamo/taxamo-php/contributors"
+    }
+  ],
+  "require": {
+    "php": ">=5.2",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "simpletest/simpletest": "*"
+  },
+  "autoload": {
+    "classmap": ["lib/Taxamo/"]
+  }
+}

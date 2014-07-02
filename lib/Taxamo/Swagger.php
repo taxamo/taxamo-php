@@ -56,13 +56,13 @@ class APIClient {
 		if ($headerParams != null) {
 			foreach ($headerParams as $key => $val) {
 				$headers[] = "$key: $val";
-				if ($key == 'api_key') {
+				if ($key == 'token') {
 				    $added_api_key = True;
 				}
 			}
 		}
 		if (! $added_api_key) {
-		    $headers[] = "api_key: " . $this->apiKey;
+		    $headers[] = "Token: " . $this->apiKey;
 		}
 
 		if (is_object($postData) or is_array($postData)) {
@@ -76,6 +76,9 @@ class APIClient {
 		// return the result on success, rather than just TRUE
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
+        curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . 'data/ca-certificates.crt');
+
 		if (! empty($queryParams)) {
 			$url = ($url . '?' . http_build_query($queryParams));
 		}
@@ -106,7 +109,7 @@ class APIClient {
 			$data = json_decode($response);
 		} else if ($response_info['http_code'] == 401) {
 			throw new Exception("Unauthorized API request to " . $url .
-					": ".json_decode($response)->message );
+					": ".$response );
 		} else if ($response_info['http_code'] == 404) {
 			$data = null;
 		} else {
@@ -191,6 +194,9 @@ class APIClient {
 
   public static function deserialize($data, $class)
   {
+    if ($class == 'number') {
+        $class = 'float';
+    }
     if (null === $data) {
       $deserialized = null;
     } else if (substr($class, 0, 6) == 'array[') {
