@@ -166,6 +166,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $transaction = new Input_transaction();
     $transaction->currency_code = 'CHF';
     $transaction->buyer_name = 'Python tester #2';
+    $transaction->invoice_place = 'Test street #5';
+    $transaction->invoice_address = array('street_name' => 'Test street #4');
     $transaction->transaction_lines = array($transaction_line1, $transaction_line2);
 
     $resp = $this->getApi()->updateTransaction($resp->transaction->key, array('transaction' => $transaction));
@@ -192,8 +194,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->total_amount, 78.68);
     $this->assertEqual($resp->transaction->status, "N");
 
-    $this->assertEqual(resp.transaction.buyer_name, "Python tester #2")
-    $this->assertEqual(resp.transaction.invoice_address.street_name, "Test street #4")
+    $this->assertEqual($resp->transaction->buyer_name, "Python tester #2");
+    $this->assertEqual($resp->transaction->invoice_address->street_name, "Test street #4");
 
     $this->assertEqual($resp->transaction->transaction_lines[0]->custom_id, 'line1');
     $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 19.6);
@@ -201,6 +203,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->transaction_lines[1]->custom_id, 'line2');
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 7);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 2.8);
+
+     $this->getApi()->cancelTransaction($resp->transaction->key);
   }
 }
 
