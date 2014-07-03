@@ -34,6 +34,42 @@ class Taxamo_TaxTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 7);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 7);
   }
+
+  public function testSimpleCalculate()
+  {
+
+    $resp = $this->getApi()->calculateSimpleTax(null, null, "e-book", "FR", 1, null, null, null, 100, "IE", "USD", null);
+
+    $this->assertEqual($resp->transaction->tax_country_code, "FR");
+    $this->assertEqual($resp->transaction->amount, 100);
+    $this->assertEqual($resp->transaction->tax_amount, 7);
+    $this->assertEqual($resp->transaction->total_amount, 107.0);
+
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 7);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 7.0);
+  }
+
+  public function testValidateTaxNumber() {
+    $resp = $this->getApi()->validateTaxNumber("IE", "6388047V");
+
+    $this->assertEqual($resp->tax_deducted, True);
+    $this->assertEqual($resp->billing_country_code, "IE");
+
+    $resp = $this->getApi()->validateTaxNumber(null, "IE6388047V12121");
+
+    $this->assertEqual($resp->tax_deducted, False);
+
+  }
+  
+  public function testLocationCalculate() {
+    $resp = $this->getApi()->calculateTaxLocation('BE', '424242');
+    
+    $this->assertEqual($resp->tax_country_code, "BE");
+    $this->assertEqual($resp->tax_supported, True);
+    $this->assertEqual($resp->countries->detected->code, "BE");
+    $this->assertEqual($resp->countries->by_billing->code, "BE");
+    $this->assertEqual($resp->countries->by_cc->code, "BE");
+  }
 }
 
 

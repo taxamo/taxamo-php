@@ -110,6 +110,9 @@ class APIClient {
 		} else if ($response_info['http_code'] == 401) {
 			throw new Exception("Unauthorized API request to " . $url .
 					": ".$response );
+        } else if ($response_info['http_code'] == 400) {
+			throw new Exception("Validation error for " . $url .
+					": ".$response."post data:".$postData);
 		} else if ($response_info['http_code'] == 404) {
 			$data = null;
 		} else {
@@ -132,13 +135,19 @@ class APIClient {
       $sanitized = $data->format(\DateTime::ISO8601);
     } else if (is_array($data)) {
       foreach ($data as $property => $value) {
-        $data[$property] = $this->sanitizeForSerialization($value);
+        if ($value === null) {
+            unset($data[$property]);
+        } else {
+            $data[$property] = $this->sanitizeForSerialization($value);
+        }
       }
       $sanitized = $data;
     } else if (is_object($data)) {
       $values = array();
       foreach (array_keys($data::$swaggerTypes) as $property) {
-        $values[$property] = $this->sanitizeForSerialization($data->$property);
+        if ($data->$property !== null) {
+            $values[$property] = $this->sanitizeForSerialization($data->$property);
+        }
       }
       $sanitized = $values;
     } else {
