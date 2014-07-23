@@ -1,6 +1,6 @@
 <?php
 /**
- * APIClient.php
+ * Swagger.php
  */
 
 
