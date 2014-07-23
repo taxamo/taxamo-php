@@ -24,48 +24,53 @@
 class Countries {
 
   static $swaggerTypes = array(
-      'by_ip' => 'country_schema',
-      'forced' => 'country_schema',
-      'guessed_from_ip' => 'country_schema',
-      'by_billing' => 'country_schema',
-      'by_cc' => 'country_schema',
+      'by_2003_rules' => 'country_schema',
+      'detected' => 'country_schema',
       'by_tax_number' => 'country_schema',
+      'by_cc' => 'country_schema',
+      'by_ip' => 'country_schema',
       'by_token' => 'country_schema',
-      'detected' => 'country_schema'
+      'by_billing' => 'country_schema',
+      'guessed_from_ip' => 'country_schema',
+      'forced' => 'country_schema'
 
     );
 
   /**
-  * Country detected by IP
+  * Used when merchant uses 2003 EU VAT rules.
   */
-  public $by_ip; // country_schema
+  public $by_2003_rules; // country_schema
   /**
-  * Country forced by paramters
+  * Country detected from other evidence
   */
-  public $forced; // country_schema
-  /**
-  * Country guessed from IP due to lack of other evidence
-  */
-  public $guessed_from_ip; // country_schema
-  /**
-  * Country detected by billing country code
-  */
-  public $by_billing; // country_schema
-  /**
-  * Country detected by credit card number prefix
-  */
-  public $by_cc; // country_schema
+  public $detected; // country_schema
   /**
   * Country detected from EU TAX number
   */
   public $by_tax_number; // country_schema
   /**
+  * Country detected by credit card number prefix
+  */
+  public $by_cc; // country_schema
+  /**
+  * Country detected by IP
+  */
+  public $by_ip; // country_schema
+  /**
   * Country detected from SMS token
   */
   public $by_token; // country_schema
   /**
-  * Country detected from other evidence
+  * Country detected by billing country code
   */
-  public $detected; // country_schema
+  public $by_billing; // country_schema
+  /**
+  * Country guessed from IP due to lack of other evidence
+  */
+  public $guessed_from_ip; // country_schema
+  /**
+  * Country forced by paramters
+  */
+  public $forced; // country_schema
   }
 
