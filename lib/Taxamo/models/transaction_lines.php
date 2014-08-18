@@ -24,6 +24,7 @@
 class Transaction_lines {
 
   static $swaggerTypes = array(
+      'custom_fields' => 'array[custom_fields]',
       'additional_currencies' => 'additional_currencies',
       'custom_id' => 'string',
       'deducted_tax_amount' => 'number',
@@ -45,6 +46,10 @@ class Transaction_lines {
 
     );
 
+  /**
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+  */
+  public $custom_fields; // array[custom_fields]
   /**
   * Additional currency information - can be used to receive additional information about invoice in another currency.
   */

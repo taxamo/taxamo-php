@@ -122,6 +122,49 @@ class Taxamo {
   		return $responseObject;
 
       }
+
+  /**
+         * capturePayment
+         * Capture payment
+   * key, string: Transaction key. (required)
+
+   * @return capturePaymentOut
+         */
+
+   public function capturePayment($key) {
+
+                //parse inputs
+                $resourcePath = "/api/v1/transactions/{key}/payments/capture";
+                $resourcePath = str_replace("{format}", "json", $resourcePath);
+                $method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+                        $resourcePath = str_replace("{" . "key" . "}",
+                                                    $this->apiClient->toPathValue($key), $resourcePath);
+                }
+                //make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+                $response = $this->apiClient->callAPI($resourcePath, $method,
+                                                      $queryParams, $body,
+                                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+                $responseObject = $this->apiClient->deserialize($response,
+                                                                'capturePaymentOut');
+                return $responseObject;
+
+      }
+
   /**
 	 * createTransaction
 	 * Store transaction

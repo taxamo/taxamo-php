@@ -27,6 +27,7 @@ class Input_transaction_update {
       'invoice_date' => 'string',
       'invoice_address' => 'invoice_address',
       'buyer_credit_card_prefix' => 'string',
+      'custom_fields' => 'array[custom_fields]',
       'additional_currencies' => 'additional_currencies',
       'buyer_tax_number' => 'string',
       'custom_id' => 'string',
@@ -62,6 +63,10 @@ class Input_transaction_update {
   * Buyer's credit card prefix.
   */
   public $buyer_credit_card_prefix; // string
+  /**
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+  */
+  public $custom_fields; // array[custom_fields]
   /**
   * Additional currency information - can be used to receive additional information about invoice in another currency.
   */

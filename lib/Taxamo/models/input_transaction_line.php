@@ -24,6 +24,7 @@
 class Input_transaction_line {
 
   static $swaggerTypes = array(
+      'custom_fields' => 'array[custom_fields]',
       'custom_id' => 'string',
       'product_type' => 'string',
       'quantity' => 'number',
@@ -38,6 +39,10 @@ class Input_transaction_line {
 
     );
 
+  /**
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
+  */
+  public $custom_fields; // array[custom_fields]
   /**
   * Custom id, provided by ecommerce software.
   */
