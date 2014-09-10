@@ -33,6 +33,7 @@ class Input_transaction {
       'custom_id' => 'string',
       'tax_country_code' => 'string',
       'force_country_code' => 'string',
+      'buyer_email' => 'string',
       'original_transaction_key' => 'string',
       'buyer_ip' => 'string',
       'invoice_place' => 'string',
@@ -87,6 +88,10 @@ class Input_transaction {
   * Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
   */
   public $force_country_code; // string
+  /**
+  * Buyer's declared email address.
+  */
+  public $buyer_email; // string
   /**
   * Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked.
   */

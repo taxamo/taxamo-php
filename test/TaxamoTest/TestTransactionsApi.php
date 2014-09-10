@@ -38,13 +38,13 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->countries->detected->code, "IE");
     $this->assertEqual($resp->transaction->tax_country_code, "FR");
     $this->assertEqual($resp->transaction->amount, 300);
-    $this->assertEqual($resp->transaction->tax_amount, 46.2);
-    $this->assertEqual($resp->transaction->total_amount, 346.2);
+    $this->assertEqual($resp->transaction->tax_amount, 47);
+    $this->assertEqual($resp->transaction->total_amount, 347);
     $this->assertEqual($resp->transaction->status, "N");
 
     $this->assertEqual($resp->transaction->transaction_lines[0]->custom_id, 'line1');
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 19.6);
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 39.2);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 20);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 40);
     $this->assertEqual($resp->transaction->transaction_lines[1]->custom_id, 'line2');
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 7);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 7);
@@ -65,13 +65,13 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->evidence->forced->resolved_country_code, "FR");
     $this->assertEqual($resp->transaction->tax_country_code, "FR");
     $this->assertEqual($resp->transaction->amount, 300);
-    $this->assertEqual($resp->transaction->tax_amount, 46.2);
-    $this->assertEqual($resp->transaction->total_amount, 346.2);
+    $this->assertEqual($resp->transaction->tax_amount, 47);
+    $this->assertEqual($resp->transaction->total_amount, 347);
     $this->assertEqual($resp->transaction->status, "N");
 
     $this->assertEqual($resp->transaction->transaction_lines[0]->custom_id, 'line1');
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 19.6);
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 39.2);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 20);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 40);
     $this->assertEqual($resp->transaction->transaction_lines[1]->custom_id, 'line2');
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 7);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 7);
@@ -116,8 +116,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
 
     $this->assertEqual($resp->transaction->tax_country_code, "FR");
     $this->assertEqual($resp->transaction->amount, 70);
-    $this->assertEqual($resp->transaction->tax_amount, 8.68);
-    $this->assertEqual($resp->transaction->total_amount, 78.68);
+    $this->assertEqual($resp->transaction->tax_amount, 8.8);
+    $this->assertEqual($resp->transaction->total_amount, 78.8);
     $this->assertEqual($resp->transaction->status, "N");
 
 
@@ -130,8 +130,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->evidence->forced->resolved_country_code, "FR");
     $this->assertEqual($resp->transaction->tax_country_code, "FR");
     $this->assertEqual($resp->transaction->amount, 70);
-    $this->assertEqual($resp->transaction->tax_amount, 8.68);
-    $this->assertEqual($resp->transaction->total_amount, 78.68);
+    $this->assertEqual($resp->transaction->tax_amount, 8.8);
+    $this->assertEqual($resp->transaction->total_amount, 78.8);
     $this->assertEqual($resp->transaction->status, "N");
 
     $this->assertEqual($resp->transaction->buyer_name, "Python tester #2");
@@ -155,8 +155,8 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->custom_fields[0]->value, 'test422');
 
     $this->assertEqual($resp->transaction->transaction_lines[0]->custom_id, 'line1');
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 19.6);
-    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 5.88);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_rate, 20);
+    $this->assertEqual($resp->transaction->transaction_lines[0]->tax_amount, 6);
     $this->assertEqual($resp->transaction->transaction_lines[1]->custom_id, 'line2');
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 7);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 2.8);

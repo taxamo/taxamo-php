@@ -37,6 +37,7 @@ class Transaction {
       'force_country_code' => 'string',
       'tax_amount' => 'number',
       'tax_timezone' => 'string',
+      'buyer_email' => 'string',
       'original_transaction_key' => 'string',
       'test' => 'bool',
       'status' => 'string',
@@ -119,6 +120,10 @@ class Transaction {
   * Timezone name for tax transaction.
   */
   public $tax_timezone; // string
+  /**
+  * Buyer's declared email address.
+  */
+  public $buyer_email; // string
   /**
   * Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked.
   */
