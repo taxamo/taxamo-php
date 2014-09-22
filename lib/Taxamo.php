@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2011 Wordnik, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,6 +28,49 @@ class Taxamo {
 	  $this->apiClient = $apiClient;
 	}
 
+  /**
+	 * createRefund
+	 * Create a refund
+   * key, string: Transaction key. (required)
+
+   * body, createRefundIn: Input (required)
+
+   * @return createRefundOut
+	 */
+
+   public function createRefund($key, $body) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/refunds";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'createRefundOut');
+  		return $responseObject;
+
+      }
   /**
 	 * createPayment
 	 * Register a payment
@@ -74,9 +117,9 @@ class Taxamo {
   /**
 	 * listPayments
 	 * List payments
-   * limit, number: Max record count (no more than 100, defaults to 10). (optional)
+   * limit, string: Max record count (no more than 100, defaults to 10). (optional)
 
-   * offset, number: How many records need to be skipped, defaults to 0. (optional)
+   * offset, string: How many records need to be skipped, defaults to 0. (optional)
 
    * key, string: Transaction key. (required)
 
@@ -124,47 +167,46 @@ class Taxamo {
       }
 
   /**
-         * capturePayment
-         * Capture payment
+	 * capturePayment
+	 * Capture payment
    * key, string: Transaction key. (required)
 
    * @return capturePaymentOut
-         */
+	 */
 
    public function capturePayment($key) {
 
-                //parse inputs
-                $resourcePath = "/api/v1/transactions/{key}/payments/capture";
-                $resourcePath = str_replace("{format}", "json", $resourcePath);
-                $method = "POST";
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/payments/capture";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
       $queryParams = array();
       $headerParams = array();
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
       if($key != null) {
-                        $resourcePath = str_replace("{" . "key" . "}",
-                                                    $this->apiClient->toPathValue($key), $resourcePath);
-                }
-                //make the API Call
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		//make the API Call
       if (! isset($body)) {
         $body = null;
       }
-                $response = $this->apiClient->callAPI($resourcePath, $method,
-                                                      $queryParams, $body,
-                                                      $headerParams);
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
 
 
       if(! $response){
           return null;
         }
 
-                $responseObject = $this->apiClient->deserialize($response,
-                                                                'capturePaymentOut');
-                return $responseObject;
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'capturePaymentOut');
+  		return $responseObject;
 
       }
-
   /**
 	 * createTransaction
 	 * Store transaction
