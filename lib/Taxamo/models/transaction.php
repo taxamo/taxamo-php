@@ -77,7 +77,8 @@ class Transaction {
   */
   public $invoice_address; // invoice_address
   /**
-  * Is the transaction created manually - using private token.
+  * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence.
+   If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field.
   */
   public $manual; // bool
   /**
@@ -93,7 +94,7 @@ class Transaction {
   */
   public $additional_currencies; // additional_currencies
   /**
-  *  Buyer's tax number - EU VAT number for example.
+  *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
   */
   public $buyer_tax_number; // string
   /**
@@ -225,7 +226,8 @@ class Transaction {
   */
   public $transaction_lines; // array[transaction_lines]
   /**
-  * Order date in yyyy-MM-dd format.
+  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
+   Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
   /**

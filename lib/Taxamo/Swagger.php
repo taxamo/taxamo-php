@@ -76,8 +76,9 @@ class APIClient {
 		// return the result on success, rather than just TRUE
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
-        curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . 'data/ca-certificates.crt');
+		curl_setopt($curl, CURLOPT_SSLVERSION, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
 
 		if (! empty($queryParams)) {
 			$url = ($url . '?' . http_build_query($queryParams));

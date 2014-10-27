@@ -539,9 +539,9 @@ class Taxamo {
 	 * Simple tax
    * buyer_credit_card_prefix, string: Buyer's credit card prefix. (optional)
 
-   * buyer_tax_number, string:  Buyer's tax number - EU VAT number for example. (optional)
+   * buyer_tax_number, string:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
 
-   * product_type, string: Product type, according to dictionary /dictionaries/product_types (optional)
+   * product_type, string: Product type, according to dictionary /dictionaries/product_types.  (optional)
 
    * force_country_code, string: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
 
@@ -559,7 +559,8 @@ class Taxamo {
 
    * currency_code, string: Currency code for transaction - e.g. EUR. (required)
 
-   * order_date, string: Order date in yyyy-MM-dd format. (optional)
+   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
+   Default value is current date and time. When using public token, the default value is used. (optional)
 
    * @return calculateSimpleTaxOut
 	 */
@@ -937,17 +938,21 @@ class Taxamo {
 
       }
   /**
-	 * getSettlementReport
-	 * Settlement report
-   * quarter, string: Quarter in yyyy-MM format. (required)
+	 * getDailySettlementStats
+	 * Settlement stats over time
+   * interval, string: Interval type - day, week, month. (required)
 
-   * @return getSettlementReportOut
+   * date_from, string: Date from in yyyy-MM format. (required)
+
+   * date_to, string: Date to in yyyy-MM format. (required)
+
+   * @return getDailySettlementStatsOut
 	 */
 
-   public function getSettlementReport($quarter) {
+   public function getDailySettlementStats($interval, $date_from, $date_to) {
 
   		//parse inputs
-  		$resourcePath = "/api/v1/reports/settlement";
+  		$resourcePath = "/api/v1/stats/settlement/daily";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "GET";
       $queryParams = array();
@@ -955,8 +960,14 @@ class Taxamo {
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
-      if($quarter != null) {
-  		  $queryParams['quarter'] = $this->apiClient->toQueryValue($quarter);
+      if($interval != null) {
+  		  $queryParams['interval'] = $this->apiClient->toQueryValue($interval);
+  		}
+  		if($date_from != null) {
+  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
+  		}
+  		if($date_to != null) {
+  		  $queryParams['date_to'] = $this->apiClient->toQueryValue($date_to);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -972,7 +983,52 @@ class Taxamo {
         }
 
   		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'getSettlementReportOut');
+  		                                                'getDailySettlementStatsOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * getRefunds
+	 * Fetch refunds
+   * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
+   * date_from, string: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+
+   * @return getRefundsOut
+	 */
+
+   public function getRefunds($moss_country_code=null, $date_from=null) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/settlement/refunds";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($moss_country_code != null) {
+  		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
+  		}
+  		if($date_from != null) {
+  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getRefundsOut');
   		return $responseObject;
 
       }
@@ -981,12 +1037,14 @@ class Taxamo {
 	 * Fetch settlement
    * format, string: Output format. 'csv' value is accepted as well (optional)
 
+   * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
    * quarter, string: Quarter in yyyy-MM format. (required)
 
    * @return getSettlementOut
 	 */
 
-   public function getSettlement($format=null, $quarter) {
+   public function getSettlement($format=null, $moss_country_code=null, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/{quarter}";
@@ -999,6 +1057,9 @@ class Taxamo {
 
       if($format != null) {
   		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($moss_country_code != null) {
+  		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
   		}
   		if($quarter != null) {
   			$resourcePath = str_replace("{" . "quarter" . "}",
@@ -1019,6 +1080,52 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'getSettlementOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * getSettlementSummary
+	 * Fetch settlement summary
+   * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+
+   * quarter, string: Quarter in yyyy-MM format. (required)
+
+   * @return getSettlementSummaryOut
+	 */
+
+   public function getSettlementSummary($moss_country_code=null, $quarter) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/settlement/summary/{quarter}";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($moss_country_code != null) {
+  		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
+  		}
+  		if($quarter != null) {
+  			$resourcePath = str_replace("{" . "quarter" . "}",
+  			                            $this->apiClient->toPathValue($quarter), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getSettlementSummaryOut');
   		return $responseObject;
 
       }
@@ -1173,10 +1280,12 @@ class Taxamo {
   /**
 	 * getCountriesDict
 	 * Countries
+   * tax_supported, bool: Should only countries with tax supported be listed? (optional)
+
    * @return getCountriesDictOut
 	 */
 
-   public function getCountriesDict() {
+   public function getCountriesDict($tax_supported=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/dictionaries/countries";
@@ -1187,7 +1296,10 @@ class Taxamo {
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
-      //make the API Call
+      if($tax_supported != null) {
+  		  $queryParams['tax_supported'] = $this->apiClient->toQueryValue($tax_supported);
+  		}
+  		//make the API Call
       if (! isset($body)) {
         $body = null;
       }

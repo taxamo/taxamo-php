@@ -40,9 +40,11 @@ class Transaction_lines {
       'amount' => 'number',
       'id' => 'number',
       'refunded_total_amount' => 'number',
+      'informative' => 'bool',
       'description' => 'string',
       'product_code' => 'string',
-      'supply_date' => 'string'
+      'supply_date' => 'string',
+      'tax_name' => 'string'
 
     );
 
@@ -63,7 +65,7 @@ class Transaction_lines {
   */
   public $deducted_tax_amount; // number
   /**
-  * Product type, according to dictionary /dictionaries/product_types
+  * Product type, according to dictionary /dictionaries/product_types. 
   */
   public $product_type; // string
   /**
@@ -87,7 +89,7 @@ class Transaction_lines {
   */
   public $total_amount; // number
   /**
-  * Tax rate, calculated by taxamo.
+  * Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
   */
   public $tax_rate; // number
   /**
@@ -111,6 +113,10 @@ class Transaction_lines {
   */
   public $refunded_total_amount; // number
   /**
+  * If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+  */
+  public $informative; // bool
+  /**
   * Line contents description.
   */
   public $description; // string
@@ -122,5 +128,9 @@ class Transaction_lines {
   * Date of supply in yyyy-MM-dd format.
   */
   public $supply_date; // string
+  /**
+  * Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+  */
+  public $tax_name; // string
   }
 

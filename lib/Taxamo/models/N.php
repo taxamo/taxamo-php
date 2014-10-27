@@ -36,11 +36,11 @@ class N {
   */
   public $day_raw; // string
   /**
-  * Transaction count
+  * Transaction count.
   */
   public $value; // number
   /**
-  * Transaction status (C or N)
+  * Transaction status (C or N).
   */
   public $status; // string
   /**

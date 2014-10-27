@@ -26,7 +26,9 @@ class GetSettlementOut {
   static $swaggerTypes = array(
       'report' => 'array[report]',
       'start_date' => 'string',
-      'end_date' => 'string'
+      'end_date' => 'string',
+      'indicative' => 'bool',
+      'fx_rate_date' => 'string'
 
     );
 
@@ -42,5 +44,13 @@ class GetSettlementOut {
   * Quarter end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
   */
   public $end_date; // string
+  /**
+  * If the quarter isn't closed yet, tax amount is indicative, as we cannot determine FX rate or all transactions yet.
+  */
+  public $indicative; // bool
+  /**
+  * Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  */
+  public $fx_rate_date; // string
   }
 

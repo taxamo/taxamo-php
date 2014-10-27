@@ -29,6 +29,7 @@ class Report {
       'country_name' => 'string',
       'country_code' => 'string',
       'tax_amount' => 'number',
+      'skip_moss' => 'bool',
       'currency_code' => 'string'
 
     );
@@ -53,6 +54,10 @@ class Report {
   * Tax amount
   */
   public $tax_amount; // number
+  /**
+  * If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
+  */
+  public $skip_moss; // 
   /**
   * Three-letter ISO currency code.
   */
