@@ -24,6 +24,7 @@
 class Invoice_address {
 
   static $swaggerTypes = array(
+      'freeform_address' => 'string',
       'building_number' => 'string',
       'street_name' => 'string',
       'address_detail' => 'string',
@@ -34,6 +35,10 @@ class Invoice_address {
 
     );
 
+  /**
+  * Freeform address. Use when structured data is not available. Will be used in SAF-MOSS file if other fields are not provided.
+  */
+  public $freeform_address; // string
   /**
   * Building number.
   */

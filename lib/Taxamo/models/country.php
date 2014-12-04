@@ -31,6 +31,7 @@ class Country {
       'cca2' => 'string',
       'callingCode' => 'array[string]',
       'cca3' => 'string',
+      'tax_number_country_code' => 'string',
       'codenum' => 'string',
       'tax_supported' => 'bool'
 
@@ -64,6 +65,10 @@ class Country {
   * Three letter ISO country code.
   */
   public $cca3; // string
+  /**
+  * VAT number country code. Important for Greece.
+  */
+  public $tax_number_country_code; // string
   /**
   * Country ISO 3-digit code.
   */

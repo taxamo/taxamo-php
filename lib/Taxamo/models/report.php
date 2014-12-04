@@ -57,7 +57,7 @@ class Report {
   /**
   * If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
   */
-  public $skip_moss; // 
+  public $skip_moss; // bool
   /**
   * Three-letter ISO currency code.
   */

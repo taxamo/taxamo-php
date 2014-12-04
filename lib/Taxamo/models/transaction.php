@@ -77,8 +77,7 @@ class Transaction {
   */
   public $invoice_address; // invoice_address
   /**
-  * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence.
-   If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field.
+  * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence. If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field.
   */
   public $manual; // bool
   /**
@@ -226,8 +225,7 @@ class Transaction {
   */
   public $transaction_lines; // array[transaction_lines]
   /**
-  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
-   Default value is current date and time. When using public token, the default value is used.
+  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
   /**

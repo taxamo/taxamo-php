@@ -149,8 +149,7 @@ class Input_transaction_update {
   */
   public $transaction_lines; // array[input_transaction_line]
   /**
-  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
-   Default value is current date and time. When using public token, the default value is used.
+  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
   }
