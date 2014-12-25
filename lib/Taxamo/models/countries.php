@@ -27,11 +27,13 @@ class Countries {
       'by_2003_rules' => 'country_schema',
       'detected' => 'country_schema',
       'by_tax_number' => 'country_schema',
+      'self_declaration' => 'country_schema',
       'by_cc' => 'country_schema',
       'by_ip' => 'country_schema',
       'by_token' => 'country_schema',
       'by_billing' => 'country_schema',
       'guessed_from_ip' => 'country_schema',
+      'other_commercially_relevant_info' => 'country_schema',
       'forced' => 'country_schema'
 
     );
@@ -48,6 +50,10 @@ class Countries {
   * Country detected from EU TAX number
   */
   public $by_tax_number; // country_schema
+  /**
+  * Self declared country as evidence.
+  */
+  public $self_declaration; // country_schema
   /**
   * Country detected by credit card number prefix
   */
@@ -68,6 +74,10 @@ class Countries {
   * Country guessed from IP due to lack of other evidence
   */
   public $guessed_from_ip; // country_schema
+  /**
+  * Additional evidence held by the merchant.
+  */
+  public $other_commercially_relevant_info; // country_schema
   /**
   * Country forced by paramters
   */

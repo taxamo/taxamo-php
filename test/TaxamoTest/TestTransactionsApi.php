@@ -163,6 +163,52 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
 
      $this->getApi()->cancelTransaction($resp->transaction->key);
   }
+
+  public function testNewEvidenceFields() {
+
+    $transaction_line1 = new Input_transaction_line();
+    $transaction_line1->amount = 200;
+    $transaction_line1->custom_id = 'line1';
+
+    $transaction_line2 = new Input_transaction_line();
+    $transaction_line2->amount = 100;
+    $transaction_line2->custom_id = 'line2';
+    $transaction_line2->product_type = 'e-book';
+
+    $ocri_evidence = new Evidence_schema();
+    $ocri_evidence->evidence_value = 'GR';
+
+    $evidence = new Evidence();
+    $evidence->other_commercially_relevant_info = $ocri_evidence;
+    $evidence->self_declaration = $ocri_evidence;
+
+    $transaction = new Input_transaction();
+    $transaction->currency_code = 'USD';
+    $transaction->evidence = $evidence;
+    $transaction->billing_country_code = 'GR';
+    $transaction->transaction_lines = array($transaction_line1, $transaction_line2);
+
+    $resp = $this->getApi()->createTransaction(array('transaction' => $transaction));
+
+    $this->assertNotNull($resp->transaction->key);
+
+    $this->assertEqual($resp->transaction->countries->detected->code, "GR");
+    $this->assertEqual($resp->transaction->countries->by_billing->code, "GR");
+    $this->assertEqual($resp->transaction->countries->other_commercially_relevant_info->code, "GR");
+    $this->assertEqual($resp->transaction->countries->self_declaration->code, "GR");
+    $this->assertEqual($resp->transaction->tax_country_code, "GR");
+    $this->assertEqual($resp->transaction->status, "N");
+
+    $resp = $this->getApi()->getTransaction($resp->transaction->key);
+
+    $this->assertNotNull($resp->transaction->key);
+
+    $this->assertEqual($resp->transaction->evidence->by_billing->resolved_country_code, "GR");
+    $this->assertEqual($resp->transaction->evidence->other_commercially_relevant_info->resolved_country_code, "GR");
+    $this->assertEqual($resp->transaction->evidence->self_declaration->resolved_country_code, "GR");
+    $this->assertEqual($resp->transaction->tax_country_code, "GR");
+    $this->assertEqual($resp->transaction->status, "N");
+  }
 }
 
 
