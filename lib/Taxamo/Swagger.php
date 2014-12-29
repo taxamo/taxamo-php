@@ -108,22 +108,47 @@ class APIClient {
 
 		// Handle the response
 		if ($response_info['http_code'] == 0) {
-			throw new Exception("TIMEOUT: api call to " . $url .
-				" took more than 5s to return" );
+			throw new TaxamoAPIException("TIMEOUT: api call to " . $url .
+				" took more than 5s to return",
+				$postData,
+				$response_info);
 		} else if ($response_info['http_code'] == 200) {
 			$data = json_decode($response);
 		} else if ($response_info['http_code'] == 401) {
-			throw new Exception("Unauthorized API request to " . $url .
-					": ".$response );
+			throw new TaxamoAuthenticationException("Unauthorized API request to ".$url.": ".$response,
+                                                    $postData,
+                                                    $response);
         } else if ($response_info['http_code'] == 400) {
-			throw new Exception("Validation error for " . $url .
-					": ".$response."post data:".$postData);
+            try {
+                $data = json_decode($response);
+            } catch (Exception $e) {
+                throw new TaxamoValidationException("Validation error for " . $url .
+                        ": ".$response."post data:".$postData,
+                        $postData,
+                        $response);
+            }
+            if (isset($data->validation_failures)) {
+                throw new TaxamoValidationException("Validation error for " . $url,
+                        $postData,
+                        $response,
+                        $data->errors,
+                        $data->validation_failures);
+            } else {
+                var_dump($data->errors);
+                throw new TaxamoValidationException("Validation error for " . $url .
+                        ": ".$response."post data:".$postData,
+                        $postData,
+                        $response,
+                        $data->errors);
+            }
+
 		} else if ($response_info['http_code'] == 404) {
 			$data = null;
 		} else {
-			throw new Exception("Can't connect to the api: " . $url .
-				" response code: " .
-				$response_info['http_code']);
+			throw new TaxamoAPIException("Can't connect to the api: " . $url .
+				" response code: " . $response_info['http_code'],
+                $postData,
+                $response);
 		}
 
 		return $data;
@@ -240,4 +265,29 @@ class APIClient {
 
 }
 
+class TaxamoAPIException extends Exception {
+    public $post_data;
+    public $response;
 
+    public function __construct($message, $post_data, $response, $code = 0, Exception $previous = null) {
+        parent::__construct($message, $code, $previous);
+        $this->post_data = $post_data;
+        $this->response = $response;
+    }
+}
+
+class TaxamoAuthenticationException extends TaxamoAPIException {
+
+}
+
+class TaxamoValidationException extends TaxamoAPIException {
+    public $errors;
+    public $validation_failures;
+
+    public function __construct($message, $post_data, $response, $errors=null, $validation_failures=null, $code = 0, Exception $previous = null) {
+        parent::__construct($message, $post_data, $response, $code, $previous);
+        $this->errors = $errors;
+        $this->validation_failures = $validation_failures;
+    }
+
+}

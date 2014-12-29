@@ -29,4 +29,5 @@ require_once(dirname(__FILE__) . '/TaxamoTest/Common.php');
 
 require_once(dirname(__FILE__) . '/TaxamoTest/TestTaxApi.php');
 require_once(dirname(__FILE__) . '/TaxamoTest/TestTransactionsApi.php');
+require_once(dirname(__FILE__) . '/TaxamoTest/TestExceptionSystem.php');
 ?>
