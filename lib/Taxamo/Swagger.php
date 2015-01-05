@@ -12,14 +12,14 @@
  */
 function swagger_autoloader($className) {
 	$currentDir = dirname(__FILE__);
-	if (file_exists($currentDir . '/Models/' . lcfirst($className) . '.php')) {
-        include $currentDir . '/Models/' . lcfirst($className) . '.php';
+	if (file_exists($currentDir . '/models/' . lcfirst($className) . '.php')) {
+        include $currentDir . '/models/' . lcfirst($className) . '.php';
     } elseif (file_exists($currentDir . '/' . lcfirst($className) . '.php')) {
         include $currentDir . '/' . lcfirst($className) . '.php';
     } elseif (file_exists($currentDir . '/' . $className . '.php')) {
 		include $currentDir . '/' . $className . '.php';
-	} elseif (file_exists($currentDir . '/Models/' . $className . '.php')) {
-		include $currentDir . '/Models/' . $className . '.php';
+	} elseif (file_exists($currentDir . '/models/' . $className . '.php')) {
+		include $currentDir . '/models/' . $className . '.php';
 	}
 }
 spl_autoload_register('swagger_autoloader');
