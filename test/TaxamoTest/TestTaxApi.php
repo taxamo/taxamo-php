@@ -53,11 +53,13 @@ class Taxamo_TaxTest extends TaxamoTestCase
     $resp = $this->getApi()->validateTaxNumber("IE", "6388047V");
 
     $this->assertEqual($resp->tax_deducted, True);
+    $this->assertEqual($resp->buyer_tax_number_valid, True);
     $this->assertEqual($resp->billing_country_code, "IE");
 
     $resp = $this->getApi()->validateTaxNumber(null, "IE6388047V12121");
 
     $this->assertEqual($resp->tax_deducted, False);
+    $this->assertEqual($resp->buyer_tax_number_valid, False);
 
   }
   

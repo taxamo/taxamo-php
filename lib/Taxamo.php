@@ -24,6 +24,8 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
+    public static $VERSION = "1.0.13";
+
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
 	}
@@ -423,6 +425,8 @@ class Taxamo {
 
    * order_date_from, string: Order date from in yyyy-MM-dd format. (optional)
 
+   * key_or_custom_id, string: Taxamo provided transaction key or custom id (optional)
+
    * offset, integer: Offset (optional)
 
    * filter_text, string: Filtering expression (optional)
@@ -438,7 +442,7 @@ class Taxamo {
    * @return listTransactionsOut
 	 */
 
-   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null) {
+   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions";
@@ -460,6 +464,9 @@ class Taxamo {
   		}
   		if($order_date_from != null) {
   		  $queryParams['order_date_from'] = $this->apiClient->toQueryValue($order_date_from);
+  		}
+  		if($key_or_custom_id != null) {
+  		  $queryParams['key_or_custom_id'] = $this->apiClient->toQueryValue($key_or_custom_id);
   		}
   		if($offset != null) {
   		  $queryParams['offset'] = $this->apiClient->toQueryValue($offset);
@@ -551,7 +558,7 @@ class Taxamo {
 
    * total_amount, number: Total amount. Required if amount is not provided. (optional)
 
-   * tax_deducted, bool: True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode. (optional)
+   * tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
 
    * amount, number: Amount. Required if total amount is not provided. (optional)
 
@@ -559,8 +566,7 @@ class Taxamo {
 
    * currency_code, string: Currency code for transaction - e.g. EUR. (required)
 
-   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed.
-   Default value is current date and time. When using public token, the default value is used. (optional)
+   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
 
    * @return calculateSimpleTaxOut
 	 */
@@ -849,7 +855,7 @@ class Taxamo {
       }
   /**
 	 * getSettlementStatsByCountry
-	 * Settlement stats per country
+	 * Settlement by country
    * date_from, string: Date from in yyyy-MM format. (required)
 
    * date_to, string: Date to in yyyy-MM format. (required)
@@ -894,7 +900,7 @@ class Taxamo {
       }
   /**
 	 * getSettlementStatsByTaxationType
-	 * Settlement stats per taxation type
+	 * Settlement by tax type
    * date_from, string: Date from in yyyy-MM format. (required)
 
    * date_to, string: Date to in yyyy-MM format. (required)
@@ -938,66 +944,18 @@ class Taxamo {
 
       }
   /**
-	 * getDailySettlementStats
-	 * Settlement stats over time
-   * interval, string: Interval type - day, week, month. (required)
-
-   * date_from, string: Date from in yyyy-MM format. (required)
-
-   * date_to, string: Date to in yyyy-MM format. (required)
-
-   * @return getDailySettlementStatsOut
-	 */
-
-   public function getDailySettlementStats($interval, $date_from, $date_to) {
-
-  		//parse inputs
-  		$resourcePath = "/api/v1/stats/settlement/daily";
-  		$resourcePath = str_replace("{format}", "json", $resourcePath);
-  		$method = "GET";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
-
-      if($interval != null) {
-  		  $queryParams['interval'] = $this->apiClient->toQueryValue($interval);
-  		}
-  		if($date_from != null) {
-  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
-  		}
-  		if($date_to != null) {
-  		  $queryParams['date_to'] = $this->apiClient->toQueryValue($date_to);
-  		}
-  		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
-  		$response = $this->apiClient->callAPI($resourcePath, $method,
-  		                                      $queryParams, $body,
-  		                                      $headerParams);
-
-
-      if(! $response){
-          return null;
-        }
-
-  		$responseObject = $this->apiClient->deserialize($response,
-  		                                                'getDailySettlementStatsOut');
-  		return $responseObject;
-
-      }
-  /**
 	 * getRefunds
 	 * Fetch refunds
+   * format, string: Output format. 'csv' value is accepted as well (optional)
+
    * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
-   * date_from, string: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+   * date_from, string: Take only refunds issued at or after the date. Format: yyyy-MM-dd (required)
 
    * @return getRefundsOut
 	 */
 
-   public function getRefunds($moss_country_code=null, $date_from=null) {
+   public function getRefunds($format=null, $moss_country_code=null, $date_from) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/refunds";
@@ -1008,7 +966,10 @@ class Taxamo {
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
-      if($moss_country_code != null) {
+      if($format != null) {
+  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($moss_country_code != null) {
   		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
   		}
   		if($date_from != null) {
@@ -1085,7 +1046,7 @@ class Taxamo {
       }
   /**
 	 * getSettlementSummary
-	 * Fetch settlement summary
+	 * Fetch summary
    * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
    * quarter, string: Quarter in yyyy-MM format. (required)

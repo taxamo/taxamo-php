@@ -89,7 +89,7 @@ class Transaction_lines {
   */
   public $total_amount; // number
   /**
-  * Tax rate, calculated by taxamo. Can be overwritten when informative field is true.
+  * Tax rate, calculated by taxamo. Must be provided when informative field is true.
   */
   public $tax_rate; // number
   /**
@@ -113,7 +113,7 @@ class Transaction_lines {
   */
   public $refunded_total_amount; // number
   /**
-  * If the line is provided for informative purposes. Such line can have :tax-rate and/or :tax-name - if not, API will calculate missing values according to product type and country of residence.
+  * If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
   */
   public $informative; // bool
   /**

@@ -26,18 +26,23 @@ class ValidateTaxNumberOut {
   static $swaggerTypes = array(
       'tax_deducted' => 'bool',
       'buyer_tax_number' => 'string',
+      'buyer_tax_number_valid' => 'bool',
       'billing_country_code' => 'string'
 
     );
 
   /**
-  * True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+  * If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
   */
   public $tax_deducted; // bool
   /**
   *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
   */
   public $buyer_tax_number; // string
+  /**
+  * If the buyer tax number has been provided and was validated successfully.
+  */
+  public $buyer_tax_number_valid; // bool
   /**
   * Billing two letter ISO country code.
   */

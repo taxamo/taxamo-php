@@ -40,7 +40,7 @@ class CalculateTaxLocationOut {
   */
   public $tax_country_code; // string
   /**
-  * True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+  * If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
   */
   public $tax_deducted; // bool
   /**

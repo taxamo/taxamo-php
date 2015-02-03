@@ -26,6 +26,7 @@ class Transactions {
   static $swaggerTypes = array(
       'invoice_date' => 'string',
       'invoice_address' => 'invoice_address',
+      'buyer_tax_number_valid' => 'bool',
       'manual' => 'bool',
       'buyer_credit_card_prefix' => 'string',
       'custom_fields' => 'array[custom_fields]',
@@ -76,6 +77,10 @@ class Transactions {
   * Invoice address.
   */
   public $invoice_address; // invoice_address
+  /**
+  * If the buyer tax number has been provided and was validated successfully.
+  */
+  public $buyer_tax_number_valid; // bool
   /**
   * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence. If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field.
   */
@@ -169,7 +174,7 @@ class Transactions {
   */
   public $verification_token; // string
   /**
-  * True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+  * If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
   */
   public $tax_deducted; // bool
   /**
