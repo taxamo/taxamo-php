@@ -32,6 +32,8 @@ class APIClient {
 	public static $PUT = "PUT";
 	public static $DELETE = "DELETE";
 
+    public $sourceId = "taxamo-php/1.0.14";
+
 	/**
 	 * @param string $apiKey your API key
 	 * @param string $apiServer the address of the API server
@@ -56,17 +58,24 @@ class APIClient {
 		$headers = array();
 
         # Allow API key from $headerParams to override default
-        $added_api_key = False;
+        $added_api_key   = False;
+        $added_source_id = False;
 		if ($headerParams != null) {
 			foreach ($headerParams as $key => $val) {
 				$headers[] = "$key: $val";
 				if ($key == 'token') {
 				    $added_api_key = True;
 				}
+				if ($key == 'source-id') {
+				    $added_source_id = True;
+				}
 			}
 		}
 		if (! $added_api_key) {
 		    $headers[] = "Token: " . $this->apiKey;
+		}
+		if (! $added_source_id) {
+            $headers[] = "Source-Id: " . $this->sourceId;
 		}
 
 		if (is_object($postData) or is_array($postData)) {
