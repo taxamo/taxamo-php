@@ -143,7 +143,6 @@ class APIClient {
                         $data->errors,
                         $data->validation_failures);
             } else {
-                var_dump($data->errors);
                 throw new TaxamoValidationException("Validation error for " . $url .
                         ": ".$response."post data:".$postData,
                         $postData,
