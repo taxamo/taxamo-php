@@ -117,8 +117,8 @@ class APIClient {
 
 		// Handle the response
 		if ($response_info['http_code'] == 0) {
-			throw new TaxamoAPIException("TIMEOUT: api call to " . $url .
-				" took more than 5s to return",
+			throw new TaxamoAPIException("Failed to connect to " . $url . " curl_error: "
+			    . curl_error($curl),
 				$postData,
 				$response_info);
 		} else if ($response_info['http_code'] == 200) {
