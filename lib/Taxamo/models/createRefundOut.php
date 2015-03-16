@@ -25,17 +25,27 @@ class CreateRefundOut {
 
   static $swaggerTypes = array(
       'total_amount' => 'number',
-      'tax_amount' => 'number'
+      'tax_amount' => 'number',
+      'refunded_total_amount' => 'number',
+      'refunded_tax_amount' => 'number'
 
     );
 
   /**
-  * Total amount, including tax, to be refunded. Either amount or total amount is required.
+  * Total amount, including tax, that was refunded in this call.
   */
   public $total_amount; // number
   /**
-  * Calculated total amount.
+  * Calculated tax amount, that was refunded in this call.
   */
   public $tax_amount; // number
+  /**
+  * Total amount, including tax, that was refunded for this line.
+  */
+  public $refunded_total_amount; // number
+  /**
+  * Total tax amount, that was refunded for this line.
+  */
+  public $refunded_tax_amount; // number
   }
 
