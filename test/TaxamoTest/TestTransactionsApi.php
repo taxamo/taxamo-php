@@ -161,19 +161,26 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 5.5);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 2.2);
 
+    time_nanosleep(1, 0);
+
     $resp = $this->getApi()->confirmTransaction($resp->transaction->key, array());
     $this->assertEqual("C", $resp->transaction->status);
     $resp = $this->getApi()->getTransaction($resp->transaction->key);
     $this->assertEqual("C", $resp->transaction->status);
+
+    time_nanosleep(1, 0);
 
     $this->getApi()->unconfirmTransaction($resp->transaction->key, array());
     $resp = $this->getApi()->getTransaction($resp->transaction->key);
     $this->assertEqual("N", $resp->transaction->status);
 
+    time_nanosleep(1, 0);
     $resp = $this->getApi()->confirmTransaction($resp->transaction->key, array());
     $this->assertEqual("C", $resp->transaction->status);
     $resp = $this->getApi()->getTransaction($resp->transaction->key);
     $this->assertEqual("C", $resp->transaction->status);
+
+    time_nanosleep(1, 0);
 
     $this->getApi()->unconfirmTransaction($resp->transaction->key, array());
     $resp = $this->getApi()->getTransaction($resp->transaction->key);
