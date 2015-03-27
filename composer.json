@@ -25,6 +25,6 @@
     "simpletest/simpletest": "*"
   },
   "autoload": {
-    "classmap": ["lib/Taxamo/", "Taxamo.php"]
+    "classmap": ["lib/Taxamo/", "lib/Taxamo.php"]
   }
 }
