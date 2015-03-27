@@ -210,6 +210,49 @@ class Taxamo {
 
       }
   /**
+	 * emailInvoice
+	 * Email invoice to transaction.buyer_email or to provided email.
+   * key, string: Transaction key. (optional)
+
+   * body, emailInvoiceIn: Input (required)
+
+   * @return emailInvoiceOut
+	 */
+
+   public function emailInvoice($key=null, $body) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/invoice/send_email";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'emailInvoiceOut');
+  		return $responseObject;
+
+      }
+  /**
 	 * createTransaction
 	 * Store transaction
    * body, createTransactionIn: Input (required)
@@ -411,6 +454,50 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'cancelTransactionOut');
+  		return $responseObject;
+
+      }
+
+  /**
+	 * unconfirmTransaction
+	 * Un-confirm the transaction. Un-confirmed transaction can be edited or canceled like a newly created one.
+   * key, string: Transaction key. (optional)
+
+   * body, unconfirmTransactionIn: Input (required)
+
+   * @return unconfirmTransactionOut
+	 */
+
+   public function unconfirmTransaction($key=null, $body) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/unconfirm";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'unconfirmTransactionOut');
   		return $responseObject;
 
       }

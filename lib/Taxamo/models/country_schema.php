@@ -28,6 +28,7 @@ class Country_schema {
       'name' => 'string',
       'code' => 'string',
       'code_long' => 'string',
+      'currency' => 'array[string]',
       'cca2' => 'string',
       'callingCode' => 'array[string]',
       'cca3' => 'string',
@@ -53,6 +54,10 @@ class Country_schema {
   * Three letter ISO country code.
   */
   public $code_long; // string
+  /**
+  * List of currencies.
+  */
+  public $currency; // array[string]
   /**
   * Two letter ISO country code.
   */

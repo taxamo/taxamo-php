@@ -161,7 +161,28 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_rate, 5.5);
     $this->assertEqual($resp->transaction->transaction_lines[1]->tax_amount, 2.2);
 
-     $this->getApi()->cancelTransaction($resp->transaction->key);
+    $resp = $this->getApi()->confirmTransaction($resp->transaction->key, array());
+    $this->assertEqual("C", $resp->transaction->status);
+    $resp = $this->getApi()->getTransaction($resp->transaction->key);
+    $this->assertEqual("C", $resp->transaction->status);
+
+    $this->getApi()->unconfirmTransaction($resp->transaction->key, array());
+    $resp = $this->getApi()->getTransaction($resp->transaction->key);
+    $this->assertEqual("N", $resp->transaction->status);
+
+    $resp = $this->getApi()->confirmTransaction($resp->transaction->key, array());
+    $this->assertEqual("C", $resp->transaction->status);
+    $resp = $this->getApi()->getTransaction($resp->transaction->key);
+    $this->assertEqual("C", $resp->transaction->status);
+
+    $this->getApi()->unconfirmTransaction($resp->transaction->key, array());
+    $resp = $this->getApi()->getTransaction($resp->transaction->key);
+    $this->assertEqual("N", $resp->transaction->status);
+
+//    $resp = $this->getApi()->emailInvoice($resp->transaction->key, array('buyer_email' => 'phptest@taxamo.com'));
+//    $this->assertTrue($resp->success);
+
+    $this->getApi()->cancelTransaction($resp->transaction->key);
   }
 
   public function testNewEvidenceFields() {
