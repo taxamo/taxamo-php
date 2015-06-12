@@ -24,63 +24,63 @@
 class Country_schema {
 
   static $swaggerTypes = array(
-      'ccn3' => 'string',
-      'name' => 'string',
-      'code' => 'string',
       'code_long' => 'string',
-      'currency' => 'array[string]',
-      'cca2' => 'string',
-      'callingCode' => 'array[string]',
-      'cca3' => 'string',
-      'tax_number_country_code' => 'string',
       'codenum' => 'string',
-      'tax_supported' => 'bool'
+      'currency' => 'array[string]',
+      'tax_supported' => 'bool',
+      'name' => 'string',
+      'ccn3' => 'string',
+      'cca3' => 'string',
+      'callingCode' => 'array[string]',
+      'tax_number_country_code' => 'string',
+      'code' => 'string',
+      'cca2' => 'string'
 
     );
 
-  /**
-  * Country ISO 3-digit code.
-  */
-  public $ccn3; // string
-  /**
-  * Country name.
-  */
-  public $name; // string
-  /**
-  * Two letter ISO country code.
-  */
-  public $code; // string
   /**
   * Three letter ISO country code.
   */
   public $code_long; // string
   /**
+  * Country ISO 3-digit code.
+  */
+  public $codenum; // string
+  /**
   * List of currencies.
   */
   public $currency; // array[string]
   /**
-  * Two letter ISO country code.
+  * True if tax calculation supported for this country.
   */
-  public $cca2; // string
+  public $tax_supported; // bool
   /**
-  * List of phone number calling codes.
+  * Country name.
   */
-  public $callingCode; // array[string]
+  public $name; // string
+  /**
+  * Country ISO 3-digit code.
+  */
+  public $ccn3; // string
   /**
   * Three letter ISO country code.
   */
   public $cca3; // string
   /**
+  * List of phone number calling codes.
+  */
+  public $callingCode; // array[string]
+  /**
   * VAT number country code. Important for Greece.
   */
   public $tax_number_country_code; // string
   /**
-  * Country ISO 3-digit code.
+  * Two letter ISO country code.
   */
-  public $codenum; // string
+  public $code; // string
   /**
-  * True if tax calculation supported for this country.
+  * Two letter ISO country code.
   */
-  public $tax_supported; // bool
+  public $cca2; // string
   }
 

@@ -24,58 +24,46 @@
 class Transaction_lines {
 
   static $swaggerTypes = array(
-      'custom_fields' => 'array[custom_fields]',
-      'additional_currencies' => 'additional_currencies',
-      'custom_id' => 'string',
-      'deducted_tax_amount' => 'number',
       'product_type' => 'string',
-      'quantity' => 'number',
-      'tax_amount' => 'number',
+      'deducted_tax_amount' => 'number',
+      'supply_date' => 'string',
+      'id' => 'number',
       'unit_price' => 'number',
       'unit_of_measure' => 'string',
-      'total_amount' => 'number',
-      'tax_rate' => 'number',
-      'refunded_tax_amount' => 'number',
+      'quantity' => 'number',
+      'custom_fields' => 'array[custom_fields]',
       'line_key' => 'string',
-      'amount' => 'number',
-      'id' => 'number',
-      'refunded_total_amount' => 'number',
-      'informative' => 'bool',
-      'description' => 'string',
+      'tax_name' => 'string',
       'product_code' => 'string',
-      'supply_date' => 'string',
-      'tax_name' => 'string'
+      'amount' => 'number',
+      'custom_id' => 'string',
+      'informative' => 'bool',
+      'tax_amount' => 'number',
+      'tax_rate' => 'number',
+      'additional_currencies' => 'additional_currencies',
+      'total_amount' => 'number',
+      'refunded_tax_amount' => 'number',
+      'description' => 'string',
+      'refunded_total_amount' => 'number'
 
     );
 
-  /**
-  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
-  */
-  public $custom_fields; // array[custom_fields]
-  /**
-  * Additional currency information - can be used to receive additional information about invoice in another currency.
-  */
-  public $additional_currencies; // additional_currencies
-  /**
-  * Custom id, provided by ecommerce software.
-  */
-  public $custom_id; // string
-  /**
-  * Deducted tax amount, calculated by taxmo.
-  */
-  public $deducted_tax_amount; // number
   /**
   * Product type, according to dictionary /dictionaries/product_types. 
   */
   public $product_type; // string
   /**
-  * Quantity Defaults to 1.
+  * Deducted tax amount, calculated by taxmo.
   */
-  public $quantity; // number
+  public $deducted_tax_amount; // number
   /**
-  * Tax amount, calculated by taxamo.
+  * Date of supply in yyyy-MM-dd format.
   */
-  public $tax_amount; // number
+  public $supply_date; // string
+  /**
+  * Generated id.
+  */
+  public $id; // number
   /**
   * Unit price.
   */
@@ -85,52 +73,64 @@ class Transaction_lines {
   */
   public $unit_of_measure; // string
   /**
-  * Total amount. Required if amount is not provided.
+  * Quantity Defaults to 1.
   */
-  public $total_amount; // number
+  public $quantity; // number
   /**
-  * Tax rate, calculated by taxamo. Must be provided when informative field is true.
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
   */
-  public $tax_rate; // number
-  /**
-  * Refunded tax amount, calculated by taxmo.
-  */
-  public $refunded_tax_amount; // number
+  public $custom_fields; // array[custom_fields]
   /**
   * Generated line key.
   */
   public $line_key; // string
   /**
-  * Amount. Required if total amount is not provided.
+  * Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
   */
-  public $amount; // number
-  /**
-  * Generated id.
-  */
-  public $id; // number
-  /**
-  * Refunded total amount, calculated by taxmo.
-  */
-  public $refunded_total_amount; // number
-  /**
-  * If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
-  */
-  public $informative; // bool
-  /**
-  * Line contents description.
-  */
-  public $description; // string
+  public $tax_name; // string
   /**
   * Internal product code, used for invoicing for example.
   */
   public $product_code; // string
   /**
-  * Date of supply in yyyy-MM-dd format.
+  * Amount. Required if total amount is not provided.
   */
-  public $supply_date; // string
+  public $amount; // number
   /**
-  * Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+  * Custom id, provided by ecommerce software.
   */
-  public $tax_name; // string
+  public $custom_id; // string
+  /**
+  * If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
+  */
+  public $informative; // bool
+  /**
+  * Tax amount, calculated by taxamo.
+  */
+  public $tax_amount; // number
+  /**
+  * Tax rate, calculated by taxamo. Must be provided when informative field is true.
+  */
+  public $tax_rate; // number
+  /**
+  * Additional currency information - can be used to receive additional information about invoice in another currency.
+  */
+  public $additional_currencies; // additional_currencies
+  /**
+  * Total amount. Required if amount is not provided.
+  */
+  public $total_amount; // number
+  /**
+  * Refunded tax amount, calculated by taxmo.
+  */
+  public $refunded_tax_amount; // number
+  /**
+  * Line contents description.
+  */
+  public $description; // string
+  /**
+  * Refunded total amount, calculated by taxmo.
+  */
+  public $refunded_total_amount; // number
   }
 

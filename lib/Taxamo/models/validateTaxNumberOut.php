@@ -40,7 +40,7 @@ class ValidateTaxNumberOut {
   */
   public $buyer_tax_number; // string
   /**
-  * If the buyer tax number has been provided and was validated successfully.
+  * If the buyer tax number has been provided and was validated successfully. Always true for domestic transactions (billing country same as merchant's country), tax number doesn't get validated in that case.
   */
   public $buyer_tax_number_valid; // bool
   /**

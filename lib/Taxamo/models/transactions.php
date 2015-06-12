@@ -24,127 +24,185 @@
 class Transactions {
 
   static $swaggerTypes = array(
+      'confirm_timestamp' => 'string',
+      'deducted_tax_amount' => 'number',
+      'buyer_credit_card_prefix' => 'string',
+      'custom_data' => 'string',
+      'buyer_name' => 'string',
       'invoice_date' => 'string',
+      'create_timestamp' => 'string',
+      'currency_code' => 'string',
+      'supply_date' => 'string',
+      'invoice_image_url' => 'string',
+      'key' => 'string',
       'invoice_address' => 'invoice_address',
       'buyer_tax_number_valid' => 'bool',
-      'manual' => 'bool',
-      'buyer_credit_card_prefix' => 'string',
-      'custom_fields' => 'array[custom_fields]',
-      'additional_currencies' => 'additional_currencies',
+      'verification_token' => 'string',
+      'tax_supported' => 'bool',
+      'transaction_lines' => 'array[transaction_lines]',
       'buyer_tax_number' => 'string',
-      'custom_id' => 'string',
-      'deducted_tax_amount' => 'number',
-      'tax_country_code' => 'string',
+      'status' => 'string',
+      'custom_fields' => 'array[custom_fields]',
       'force_country_code' => 'string',
-      'tax_amount' => 'number',
-      'tax_timezone' => 'string',
+      'countries' => 'countries',
+      'invoice_number' => 'string',
+      'order_date' => 'string',
+      'source' => 'string',
+      'amount' => 'number',
+      'buyer_ip' => 'string',
       'buyer_email' => 'string',
       'original_transaction_key' => 'string',
-      'test' => 'bool',
-      'status' => 'string',
-      'create_timestamp' => 'string',
+      'billing_country_code' => 'string',
+      'custom_id' => 'string',
+      'tax_amount' => 'number',
+      'additional_currencies' => 'additional_currencies',
+      'invoice_place' => 'string',
       'total_amount' => 'number',
       'tax_entity_name' => 'string',
-      'buyer_ip' => 'string',
-      'refunded_tax_amount' => 'number',
-      'countries' => 'countries',
-      'invoice_place' => 'string',
-      'verification_token' => 'string',
-      'tax_deducted' => 'bool',
-      'buyer_name' => 'string',
-      'confirm_timestamp' => 'string',
       'evidence' => 'evidence',
-      'amount' => 'number',
-      'custom_data' => 'string',
-      'billing_country_code' => 'string',
-      'tax_supported' => 'bool',
-      'invoice_number' => 'string',
-      'currency_code' => 'string',
-      'refunded_total_amount' => 'number',
+      'refunded_tax_amount' => 'number',
+      'manual' => 'bool',
+      'tax_timezone' => 'string',
       'description' => 'string',
-      'supply_date' => 'string',
-      'transaction_lines' => 'array[transaction_lines]',
-      'order_date' => 'string',
-      'key' => 'string'
+      'test' => 'bool',
+      'tax_deducted' => 'bool',
+      'tax_country_code' => 'string',
+      'refunded_total_amount' => 'number'
 
     );
 
   /**
-  * Invoice date of issue.
+  * Date and time of transaction confirmation.
   */
-  public $invoice_date; // string
-  /**
-  * Invoice address.
-  */
-  public $invoice_address; // invoice_address
-  /**
-  * If the buyer tax number has been provided and was validated successfully.
-  */
-  public $buyer_tax_number_valid; // bool
-  /**
-  * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence. If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field.
-  */
-  public $manual; // bool
-  /**
-  * Buyer's credit card prefix.
-  */
-  public $buyer_credit_card_prefix; // string
-  /**
-  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
-  */
-  public $custom_fields; // array[custom_fields]
-  /**
-  * Additional currency information - can be used to receive additional information about invoice in another currency.
-  */
-  public $additional_currencies; // additional_currencies
-  /**
-  *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
-  */
-  public $buyer_tax_number; // string
-  /**
-  * Custom identifier provided upon transaction creation.
-  */
-  public $custom_id; // string
+  public $confirm_timestamp; // string
   /**
   * How much tax has been deducted.
   */
   public $deducted_tax_amount; // number
   /**
-  * Two-letter ISO country code, e.g. FR. This code applies to detected/set country for transaction, but can be set using manual mode.
+  * Buyer's credit card prefix.
   */
-  public $tax_country_code; // string
+  public $buyer_credit_card_prefix; // string
   /**
-  * Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
+  * Custom data related to transaction.
   */
-  public $force_country_code; // string
+  public $custom_data; // string
   /**
-  * Tax amount of transaction.
+  * Buyer's name - first name and last name or company name.
   */
-  public $tax_amount; // number
+  public $buyer_name; // string
   /**
-  * Timezone name for tax transaction.
+  * Invoice date of issue.
   */
-  public $tax_timezone; // string
+  public $invoice_date; // string
   /**
-  * Buyer's declared email address.
+  * Date and time of transaction creation.
   */
-  public $buyer_email; // string
+  public $create_timestamp; // string
   /**
-  * Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked.
+  * Currency code for transaction - e.g. EUR.
   */
-  public $original_transaction_key; // string
+  public $currency_code; // string
   /**
-  * Was this transaction created in test mode?
+  * Supply date in yyyy-MM-dd format.
   */
-  public $test; // bool
+  public $supply_date; // string
+  /**
+  * Invoice image URL - provided by Taxamo.
+  */
+  public $invoice_image_url; // string
+  /**
+  * Id generated by taxamo.
+  */
+  public $key; // string
+  /**
+  * Invoice address.
+  */
+  public $invoice_address; // invoice_address
+  /**
+  * If the buyer tax number has been provided and was validated successfully. Always true for domestic transactions (billing country same as merchant's country), tax number doesn't get validated in that case.
+  */
+  public $buyer_tax_number_valid; // bool
+  /**
+  * Verification token
+  */
+  public $verification_token; // string
+  /**
+  * Is tax calculation supported for a detected tax location?
+  */
+  public $tax_supported; // bool
+  /**
+  * Transaction lines.
+  */
+  public $transaction_lines; // array[transaction_lines]
+  /**
+  *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
+  */
+  public $buyer_tax_number; // string
   /**
   * Transaction status.
   */
   public $status; // string
   /**
-  * Date and time of transaction creation.
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
   */
-  public $create_timestamp; // string
+  public $custom_fields; // array[custom_fields]
+  /**
+  * Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation.
+  */
+  public $force_country_code; // string
+  /**
+  * Map of countries calculated from evidence provided. This value is not stored and is available only upon tax calculation.
+  */
+  public $countries; // countries
+  /**
+  * Invoice number.
+  */
+  public $invoice_number; // string
+  /**
+  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
+  */
+  public $order_date; // string
+  /**
+  * Transaction source software - e.g. plugin
+  */
+  public $source; // string
+  /**
+  * Amount of transaction without tax.
+  */
+  public $amount; // number
+  /**
+  * IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
+  */
+  public $buyer_ip; // string
+  /**
+  * Buyer's declared email address.
+  */
+  public $buyer_email; // string
+  /**
+  * Use data and evidence from original transaction. Tax will be re-calculated, but evidence won't be re-checked. This parameter is taken into account only when 'manual' flag is raised.
+  */
+  public $original_transaction_key; // string
+  /**
+  * Billing two letter ISO country code.
+  */
+  public $billing_country_code; // string
+  /**
+  * Custom identifier provided upon transaction creation.
+  */
+  public $custom_id; // string
+  /**
+  * Tax amount of transaction.
+  */
+  public $tax_amount; // number
+  /**
+  * Additional currency information - can be used to receive additional information about invoice in another currency.
+  */
+  public $additional_currencies; // additional_currencies
+  /**
+  * Invoice place of issue.
+  */
+  public $invoice_place; // string
   /**
   * Total amount of transaction.
   */
@@ -154,88 +212,40 @@ class Transactions {
   */
   public $tax_entity_name; // string
   /**
-  * IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
+  * Tax country of residence evidence.
   */
-  public $buyer_ip; // string
+  public $evidence; // evidence
   /**
   * Refunded tax amount.
   */
   public $refunded_tax_amount; // number
   /**
-  * Map of countries calculated from evidence provided. This value is not stored and is available only upon tax calculation.
+  * Is the transaction created manually - using private token. In manual mode, it is the merchant who calculates tax country and validates evidence. If you need API to do that when accessing the API with private token, just skip the 'manual' flag or use false value there and provide customer's ip address through buyer_ip field. Manual mode is also used when using original_transaction_key field.
   */
-  public $countries; // countries
+  public $manual; // bool
   /**
-  * Invoice place of issue.
+  * Timezone name for tax transaction.
   */
-  public $invoice_place; // string
-  /**
-  * Verification token
-  */
-  public $verification_token; // string
-  /**
-  * If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
-  */
-  public $tax_deducted; // bool
-  /**
-  * Buyer's name - first name and last name or company name.
-  */
-  public $buyer_name; // string
-  /**
-  * Date and time of transaction confirmation.
-  */
-  public $confirm_timestamp; // string
-  /**
-  * Tax country of residence evidence.
-  */
-  public $evidence; // evidence
-  /**
-  * Amount of transaction without tax.
-  */
-  public $amount; // number
-  /**
-  * Custom data related to transaction.
-  */
-  public $custom_data; // string
-  /**
-  * Billing two letter ISO country code.
-  */
-  public $billing_country_code; // string
-  /**
-  * Is tax calculation supported for a detected tax location?
-  */
-  public $tax_supported; // bool
-  /**
-  * Invoice number.
-  */
-  public $invoice_number; // string
-  /**
-  * Currency code for transaction - e.g. EUR.
-  */
-  public $currency_code; // string
-  /**
-  * Total amount refunde (including tax).
-  */
-  public $refunded_total_amount; // number
+  public $tax_timezone; // string
   /**
   * Transaction description.
   */
   public $description; // string
   /**
-  * Supply date in yyyy-MM-dd format.
+  * Was this transaction created in test mode?
   */
-  public $supply_date; // string
+  public $test; // bool
   /**
-  * Transaction lines.
+  * If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example.
   */
-  public $transaction_lines; // array[transaction_lines]
+  public $tax_deducted; // bool
   /**
-  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
+  * Two-letter ISO country code, e.g. FR. This code applies to detected/set country for transaction, but can be set using manual mode.
   */
-  public $order_date; // string
+  public $tax_country_code; // string
   /**
-  * Id generated by taxamo.
+  * Total amount refunde (including tax).
   */
-  public $key; // string
+  public $refunded_total_amount; // number
   }
 

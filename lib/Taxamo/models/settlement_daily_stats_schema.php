@@ -24,35 +24,50 @@
 class Settlement_daily_stats_schema {
 
   static $swaggerTypes = array(
-      'day_raw' => 'string',
       'b2c' => 'integer',
-      'b2b' => 'integer',
-      'count' => 'integer',
       'untaxed' => 'integer',
+      'eu_taxed' => 'integer',
+      'eu_b2b' => 'integer',
+      'count' => 'integer',
+      'eu_total' => 'integer',
+      'day_raw' => 'string',
+      'b2b' => 'integer',
       'day' => 'string'
 
     );
 
   /**
-  * Date for stats in yyyy-MM-dd'T'hh:mm:ss'Z' format.
-  */
-  public $day_raw; // string
-  /**
   * B2C transaction count.
   */
   public $b2c; // integer
   /**
-  * B2B transaction count.
+  * Untaxed transaction count.
   */
-  public $b2b; // integer
+  public $untaxed; // integer
+  /**
+  * Total EU Taxed transaction count.
+  */
+  public $eu_taxed; // integer
+  /**
+  * Total EU B2B transaction count.
+  */
+  public $eu_b2b; // integer
   /**
   * Total transaction count.
   */
   public $count; // integer
   /**
-  * Untaxed transaction count.
+  * Total EU transaction count.
   */
-  public $untaxed; // integer
+  public $eu_total; // integer
+  /**
+  * Date for stats in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  */
+  public $day_raw; // string
+  /**
+  * B2B transaction count.
+  */
+  public $b2b; // integer
   /**
   * Date for stats in yyyy-MM-dd format.
   */

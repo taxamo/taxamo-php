@@ -28,6 +28,9 @@ class EmailInvoiceOut {
 
     );
 
+  /**
+  * Was operation successful?
+  */
   public $success; // bool
   }
 

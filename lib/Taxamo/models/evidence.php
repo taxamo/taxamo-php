@@ -24,52 +24,44 @@
 class Evidence {
 
   static $swaggerTypes = array(
-      'by_2003_rules' => 'evidence_schema',
-      'by_payment_method' => 'evidence_schema',
-      'by_tax_number' => 'evidence_schema',
-      'self_declaration' => 'evidence_schema',
-      'by_cc' => 'evidence_schema',
-      'by_ip' => 'evidence_schema',
       'by_token' => 'evidence_schema',
-      'by_billing' => 'evidence_schema',
+      'by_cc' => 'evidence_schema',
+      'by_2003_rules' => 'evidence_schema',
+      'forced' => 'evidence_schema',
+      'by_payment_method' => 'evidence_schema',
+      'by_ip' => 'evidence_schema',
       'guessed_from_ip' => 'evidence_schema',
       'other_commercially_relevant_info' => 'evidence_schema',
-      'forced' => 'evidence_schema'
+      'by_billing' => 'evidence_schema',
+      'by_tax_number' => 'evidence_schema',
+      'self_declaration' => 'evidence_schema'
 
     );
 
-  /**
-  * Used when merchant uses 2003 EU VAT rules.
-  */
-  public $by_2003_rules; // evidence_schema
-  /**
-  * Country detected by payment method.
-  */
-  public $by_payment_method; // evidence_schema
-  /**
-  * Country detected from EU TAX number
-  */
-  public $by_tax_number; // evidence_schema
-  /**
-  * Self declared country as evidence. Requires merchant setting to be active.
-  */
-  public $self_declaration; // evidence_schema
-  /**
-  * Country detected by credit card number prefix
-  */
-  public $by_cc; // evidence_schema
-  /**
-  * Country detected by IP
-  */
-  public $by_ip; // evidence_schema
   /**
   * Country detected from SMS token
   */
   public $by_token; // evidence_schema
   /**
-  * Country detected by billing country code
+  * Country detected by credit card number prefix
   */
-  public $by_billing; // evidence_schema
+  public $by_cc; // evidence_schema
+  /**
+  * Used when merchant uses 2003 EU VAT rules.
+  */
+  public $by_2003_rules; // evidence_schema
+  /**
+  * Country forced by paramters
+  */
+  public $forced; // evidence_schema
+  /**
+  * Country detected by payment method.
+  */
+  public $by_payment_method; // evidence_schema
+  /**
+  * Country detected by IP
+  */
+  public $by_ip; // evidence_schema
   /**
   * Country guessed from IP due to lack of other evidence
   */
@@ -79,8 +71,16 @@ class Evidence {
   */
   public $other_commercially_relevant_info; // evidence_schema
   /**
-  * Country forced by paramters
+  * Country detected by billing country code
   */
-  public $forced; // evidence_schema
+  public $by_billing; // evidence_schema
+  /**
+  * Country detected from EU TAX number
+  */
+  public $by_tax_number; // evidence_schema
+  /**
+  * Self declared country as evidence. Requires merchant setting to be active.
+  */
+  public $self_declaration; // evidence_schema
   }
 

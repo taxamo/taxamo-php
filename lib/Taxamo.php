@@ -167,7 +167,6 @@ class Taxamo {
   		return $responseObject;
 
       }
-
   /**
 	 * capturePayment
 	 * Capture payment
@@ -211,7 +210,7 @@ class Taxamo {
       }
   /**
 	 * emailInvoice
-	 * Email invoice to transaction.buyer_email or to provided email.
+	 * Email invoice
    * key, string: Transaction key. (optional)
 
    * body, emailInvoiceIn: Input (required)
@@ -529,7 +528,7 @@ class Taxamo {
    * @return listTransactionsOut
 	 */
 
-   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null) {
+   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null, $invoice_number=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions";
@@ -573,6 +572,9 @@ class Taxamo {
   		if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
+  		if($invoice_number != null) {
+          $queryParams['invoice_number'] = $this->apiClient->toQueryValue($invoice_number);
+        }
   		//make the API Call
       if (! isset($body)) {
         $body = null;
@@ -1031,6 +1033,56 @@ class Taxamo {
 
       }
   /**
+	 * getDailySettlementStats
+	 * Settlement stats over time
+   * interval, string: Interval type - day, week, month. (required)
+
+   * date_from, string: Date from in yyyy-MM format. (required)
+
+   * date_to, string: Date to in yyyy-MM format. (required)
+
+   * @return getDailySettlementStatsOut
+	 */
+
+   public function getDailySettlementStats($interval, $date_from, $date_to) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/stats/settlement/daily";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($interval != null) {
+  		  $queryParams['interval'] = $this->apiClient->toQueryValue($interval);
+  		}
+  		if($date_from != null) {
+  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
+  		}
+  		if($date_to != null) {
+  		  $queryParams['date_to'] = $this->apiClient->toQueryValue($date_to);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getDailySettlementStatsOut');
+  		return $responseObject;
+
+      }
+  /**
 	 * getRefunds
 	 * Fetch refunds
    * format, string: Output format. 'csv' value is accepted as well (optional)
@@ -1087,12 +1139,14 @@ class Taxamo {
 
    * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
+   * moss_tax_id, string: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
+
    * quarter, string: Quarter in yyyy-MM format. (required)
 
    * @return getSettlementOut
 	 */
 
-   public function getSettlement($format=null, $moss_country_code=null, $quarter) {
+   public function getSettlement($format=null, $moss_country_code=null, $moss_tax_id=null, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/{quarter}";
@@ -1108,6 +1162,9 @@ class Taxamo {
   		}
   		if($moss_country_code != null) {
   		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
+  		}
+  		if($moss_tax_id != null) {
+  		  $queryParams['moss_tax_id'] = $this->apiClient->toQueryValue($moss_tax_id);
   		}
   		if($quarter != null) {
   			$resourcePath = str_replace("{" . "quarter" . "}",

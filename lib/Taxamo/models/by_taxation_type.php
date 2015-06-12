@@ -26,7 +26,9 @@ class By_taxation_type {
   static $swaggerTypes = array(
       'taxed_count' => 'number',
       'deducted_count' => 'number',
-      'transactions_count' => 'number'
+      'transactions_count' => 'number',
+      'eu_b2b' => 'integer',
+      'eu_taxed' => 'integer'
 
     );
 
@@ -42,5 +44,13 @@ class By_taxation_type {
   * Total number of transactions
   */
   public $transactions_count; // number
+  /**
+  * Total EU B2B transaction count.
+  */
+  public $eu_b2b; // integer
+  /**
+  * Total EU Taxed transaction count.
+  */
+  public $eu_taxed; // integer
   }
 

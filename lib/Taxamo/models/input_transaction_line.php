@@ -24,40 +24,32 @@
 class Input_transaction_line {
 
   static $swaggerTypes = array(
-      'custom_fields' => 'array[custom_fields]',
-      'custom_id' => 'string',
       'product_type' => 'string',
-      'quantity' => 'number',
+      'supply_date' => 'string',
       'unit_price' => 'number',
       'unit_of_measure' => 'string',
-      'total_amount' => 'number',
-      'tax_rate' => 'number',
+      'quantity' => 'number',
+      'custom_fields' => 'array[custom_fields]',
       'line_key' => 'string',
-      'amount' => 'number',
-      'informative' => 'bool',
-      'description' => 'string',
+      'tax_name' => 'string',
       'product_code' => 'string',
-      'supply_date' => 'string',
-      'tax_name' => 'string'
+      'amount' => 'number',
+      'custom_id' => 'string',
+      'informative' => 'bool',
+      'tax_rate' => 'number',
+      'total_amount' => 'number',
+      'description' => 'string'
 
     );
 
-  /**
-  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
-  */
-  public $custom_fields; // array[custom_fields]
-  /**
-  * Custom id, provided by ecommerce software.
-  */
-  public $custom_id; // string
   /**
   * Product type, according to dictionary /dictionaries/product_types. 
   */
   public $product_type; // string
   /**
-  * Quantity Defaults to 1.
+  * Date of supply in yyyy-MM-dd format.
   */
-  public $quantity; // number
+  public $supply_date; // string
   /**
   * Unit price.
   */
@@ -67,40 +59,48 @@ class Input_transaction_line {
   */
   public $unit_of_measure; // string
   /**
-  * Total amount. Required if amount is not provided.
+  * Quantity Defaults to 1.
   */
-  public $total_amount; // number
+  public $quantity; // number
   /**
-  * Tax rate, calculated by taxamo. Must be provided when informative field is true.
+  * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
   */
-  public $tax_rate; // number
+  public $custom_fields; // array[custom_fields]
   /**
   * Generated line key.
   */
   public $line_key; // string
   /**
-  * Amount. Required if total amount is not provided.
+  * Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
   */
-  public $amount; // number
-  /**
-  * If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
-  */
-  public $informative; // bool
-  /**
-  * Line contents description.
-  */
-  public $description; // string
+  public $tax_name; // string
   /**
   * Internal product code, used for invoicing for example.
   */
   public $product_code; // string
   /**
-  * Date of supply in yyyy-MM-dd format.
+  * Amount. Required if total amount is not provided.
   */
-  public $supply_date; // string
+  public $amount; // number
   /**
-  * Tax name, calculated by taxamo.  Can be overwritten when informative field is true.
+  * Custom id, provided by ecommerce software.
   */
-  public $tax_name; // string
+  public $custom_id; // string
+  /**
+  * If the line is provided for informative purposes. Such line must have :tax-rate and optionally :tax-name - if not, API validation will fail for this line.
+  */
+  public $informative; // bool
+  /**
+  * Tax rate, calculated by taxamo. Must be provided when informative field is true.
+  */
+  public $tax_rate; // number
+  /**
+  * Total amount. Required if amount is not provided.
+  */
+  public $total_amount; // number
+  /**
+  * Line contents description.
+  */
+  public $description; // string
   }
 
