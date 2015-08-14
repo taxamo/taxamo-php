@@ -32,7 +32,7 @@ class APIClient {
 	public static $PUT = "PUT";
 	public static $DELETE = "DELETE";
 
-    public $sourceId = "taxamo-php/1.0.22";
+    public $sourceId = "taxamo-php/1.0.23";
 
 	/**
 	 * @param string $apiKey your API key

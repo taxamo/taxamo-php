@@ -25,6 +25,7 @@ class Transaction {
 
   static $swaggerTypes = array(
       'confirm_timestamp' => 'string',
+      'fully_informative' => 'bool',
       'deducted_tax_amount' => 'number',
       'buyer_credit_card_prefix' => 'string',
       'custom_data' => 'string',
@@ -47,6 +48,7 @@ class Transaction {
       'countries' => 'countries',
       'invoice_number' => 'string',
       'order_date' => 'string',
+      'kind' => 'string',
       'source' => 'string',
       'amount' => 'number',
       'buyer_ip' => 'string',
@@ -75,6 +77,10 @@ class Transaction {
   * Date and time of transaction confirmation.
   */
   public $confirm_timestamp; // string
+  /**
+  * Set to true if transaction has only informative lines.
+  */
+  public $fully_informative; // bool
   /**
   * How much tax has been deducted.
   */
@@ -140,7 +146,7 @@ class Transaction {
   */
   public $buyer_tax_number; // string
   /**
-  * Transaction status.
+  * Transaction status: 'N' - new, 'C' - confirmed, 'X' - cancelled, 'S' - settled. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default state. Not applicable for update-transaction!.
   */
   public $status; // string
   /**
@@ -163,6 +169,10 @@ class Transaction {
   * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
+  /**
+  * Transaction kind: eu-b2c, eu-b2b, domestic, untaxed
+  */
+  public $kind; // string
   /**
   * Transaction source software - e.g. plugin
   */

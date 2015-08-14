@@ -34,6 +34,7 @@ class Input_transaction {
       'verification_token' => 'string',
       'transaction_lines' => 'array[input_transaction_line]',
       'buyer_tax_number' => 'string',
+      'status' => 'string',
       'custom_fields' => 'array[custom_fields]',
       'force_country_code' => 'string',
       'invoice_number' => 'string',
@@ -92,6 +93,10 @@ class Input_transaction {
   *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
   */
   public $buyer_tax_number; // string
+  /**
+  * Transaction status: 'N' - new, 'C' - confirmed, 'X' - cancelled, 'S' - settled. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default state. Not applicable for update-transaction!.
+  */
+  public $status; // string
   /**
   * Custom fields, stored as key-value pairs. This property is not processed and used mostly with Taxamo-built helpers.
   */
