@@ -4,26 +4,26 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
   public function testStandardFlow()
   {
 
-    $transaction_line1 = new Input_transaction_line();
+    $transaction_line1 = new Taxamo\Input_transaction_line();
     $transaction_line1->amount = 200;
     $transaction_line1->custom_id = 'line1';
 
-    $transaction_line2 = new Input_transaction_line();
+    $transaction_line2 = new Taxamo\Input_transaction_line();
     $transaction_line2->amount = 100;
     $transaction_line2->custom_id = 'line2';
     $transaction_line2->product_type = 'e-book';
 
-    $custom_field1 = new Custom_fields();
+    $custom_field1 = new Taxamo\Custom_fields();
     $custom_field1->key = 'test1';
     $custom_field1->value = 'test2';
 
-    $custom_field2 = new Custom_fields();
+    $custom_field2 = new Taxamo\Custom_fields();
     $custom_field2->key = 'test12';
     $custom_field2->value = 'test22';
 
     $transaction_line2->custom_fields = array($custom_field2);
 
-    $transaction = new Input_transaction();
+    $transaction = new Taxamo\Input_transaction();
     $transaction->currency_code = 'USD';
     $transaction->buyer_ip = '127.0.0.1';
     $transaction->billing_country_code = 'IE';
@@ -81,27 +81,27 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual($resp->transaction->custom_fields[0]->key, 'test1');
     $this->assertEqual($resp->transaction->custom_fields[0]->value, 'test2');
 
-    $transaction_line1 = new Input_transaction_line();
+    $transaction_line1 = new Taxamo\Input_transaction_line();
     $transaction_line1->amount = 30;
     $transaction_line1->custom_id = 'line1';
 
-    $transaction_line2 = new Input_transaction_line();
+    $transaction_line2 = new Taxamo\Input_transaction_line();
     $transaction_line2->amount = 40;
     $transaction_line2->custom_id = 'line2';
     $transaction_line2->product_type = 'e-book';
 
-    $custom_field1 = new Custom_fields();
+    $custom_field1 = new Taxamo\Custom_fields();
     $custom_field1->key = 'test31';
     $custom_field1->value = 'test32';
 
-    $custom_field2 = new Custom_fields();
+    $custom_field2 = new Taxamo\Custom_fields();
     $custom_field2->key = 'test412';
     $custom_field2->value = 'test422';
 
     $transaction_line1->custom_fields = array($custom_field1, $custom_field2);
     $transaction_line2->custom_fields = array($custom_field2, $custom_field1, $custom_field2);
 
-    $transaction = new Input_transaction();
+    $transaction = new Taxamo\Input_transaction();
     $transaction->currency_code = 'CHF';
     $transaction->buyer_name = 'Python tester #2';
     $transaction->invoice_place = 'Test street #5';
@@ -195,23 +195,23 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
 
   public function testNewEvidenceFields() {
 
-    $transaction_line1 = new Input_transaction_line();
+    $transaction_line1 = new Taxamo\Input_transaction_line();
     $transaction_line1->amount = 200;
     $transaction_line1->custom_id = 'line1';
 
-    $transaction_line2 = new Input_transaction_line();
+    $transaction_line2 = new Taxamo\Input_transaction_line();
     $transaction_line2->amount = 100;
     $transaction_line2->custom_id = 'line2';
     $transaction_line2->product_type = 'e-book';
 
-    $ocri_evidence = new Evidence_schema();
+    $ocri_evidence = new Taxamo\Evidence_schema();
     $ocri_evidence->evidence_value = 'GR';
 
-    $evidence = new Evidence();
+    $evidence = new Taxamo\Evidence();
     $evidence->other_commercially_relevant_info = $ocri_evidence;
     $evidence->self_declaration = $ocri_evidence;
 
-    $transaction = new Input_transaction();
+    $transaction = new Taxamo\Input_transaction();
     $transaction->currency_code = 'USD';
     $transaction->evidence = $evidence;
     $transaction->billing_country_code = 'GR';

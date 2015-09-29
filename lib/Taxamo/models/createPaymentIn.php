@@ -1,4 +1,4 @@
-<?php
+<?php namespace Taxamo;
 /**
  *  Copyright 2014 Taxamo, Ltd.
  *

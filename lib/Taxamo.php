@@ -1,6 +1,6 @@
-<?php
+<?php namespace Taxamo;
 /**
- *  Copyright 2011 Wordnik, Inc.
+ *  Copyright 2014-2015 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "1.0.23";
+    public static $VERSION = "2.0.0";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;

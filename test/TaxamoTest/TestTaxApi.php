@@ -1,18 +1,19 @@
 <?php
-class Taxamo_TaxTest extends TaxamoTestCase
+
+class Taxamo_TaxTest extends \TaxamoTestCase
 {
   public function testCalculate()
   {
-    $transaction_line1 = new Input_transaction_line();
+    $transaction_line1 = new Taxamo\Input_transaction_line();
     $transaction_line1->amount = 200;
     $transaction_line1->custom_id = 'line1';
 
-    $transaction_line2 = new Input_transaction_line();
+    $transaction_line2 = new Taxamo\Input_transaction_line();
     $transaction_line2->amount = 100;
     $transaction_line2->custom_id = 'line2';
     $transaction_line2->product_type = 'e-book';
 
-    $transaction = new Input_transaction();
+    $transaction = new Taxamo\Input_transaction();
     $transaction->currency_code = 'USD';
     $transaction->buyer_ip = '127.0.0.1';
     $transaction->billing_country_code = 'IE';

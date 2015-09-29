@@ -1,4 +1,4 @@
-<?php
+<?php namespace Taxamo;
 /**
  * Swagger.php
  */
@@ -10,8 +10,18 @@
  *
  * @param string $className the class to attempt to load
  */
+
+function startsWith($haystack, $needle) {
+    return $needle === "" || strrpos($haystack, $needle, -strlen($haystack)) !== FALSE;
+}
+
 function swagger_autoloader($className) {
 	$currentDir = dirname(__FILE__);
+	if (!startsWith($className, "Taxamo\\")) {
+	    return;
+	}
+    $className = str_replace("Taxamo\\", "", $className);
+
 	if (file_exists($currentDir . '/models/' . lcfirst($className) . '.php')) {
         include $currentDir . '/models/' . lcfirst($className) . '.php';
     } elseif (file_exists($currentDir . '/' . lcfirst($className) . '.php')) {
@@ -22,7 +32,7 @@ function swagger_autoloader($className) {
 		include $currentDir . '/models/' . $className . '.php';
 	}
 }
-spl_autoload_register('swagger_autoloader');
+spl_autoload_register('Taxamo\\swagger_autoloader');
 
 
 class APIClient {
@@ -32,7 +42,7 @@ class APIClient {
 	public static $PUT = "PUT";
 	public static $DELETE = "DELETE";
 
-    public $sourceId = "taxamo-php/1.0.23";
+    public $sourceId = "taxamo-php/2.0.0";
 
 	/**
 	 * @param string $apiKey your API key
@@ -259,6 +269,7 @@ class APIClient {
       settype($data, $class);
       $deserialized = $data;
     } else {
+      $class = "Taxamo\\".$class;
       $instance = new $class();
       foreach ($instance::$swaggerTypes as $property => $type) {
         if (isset($data->$property)) {
@@ -273,7 +284,7 @@ class APIClient {
 
 }
 
-class TaxamoAPIException extends Exception {
+class TaxamoAPIException extends \Exception {
     public $post_data;
     public $response;
 
