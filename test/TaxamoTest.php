@@ -24,7 +24,7 @@ function exception_error_handler($errno, $errstr, $errfile, $errline)
 set_error_handler('exception_error_handler');
 error_reporting(E_ALL | E_STRICT);
 
-require_once(dirname(__FILE__) . '/../lib/Taxamo.php');
+require_once(dirname(__FILE__) . '/../vendor/autoload.php');
 require_once(dirname(__FILE__) . '/TaxamoTest/Common.php');
 
 require_once(dirname(__FILE__) . '/TaxamoTest/TestTaxApi.php');
