@@ -24,13 +24,23 @@
 class UpdateTransactionOut {
 
   static $swaggerTypes = array(
-      'transaction' => 'transaction'
+      'transaction' => 'transaction',
+      'tax_required_fields' => 'array[tax_required_fields]',
+      'storage_required_fields' => 'array[storage_required_fields]'
 
     );
 
   /**
-  * Transaction data.
+  * Transaction data
   */
   public $transaction; // transaction
+  /**
+  * Fields required for tax calculation. Depends on the region/transaction type.
+  */
+  public $tax_required_fields; // array[tax_required_fields]
+  /**
+  * Fields required for transaction storage (can be added later - it's up to merchant software). Depends on the region/transaction type.
+  */
+  public $storage_required_fields; // array[storage_required_fields]
   }
 

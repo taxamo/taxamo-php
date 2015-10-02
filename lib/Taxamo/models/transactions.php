@@ -40,14 +40,17 @@ class Transactions {
       'buyer_tax_number_valid' => 'bool',
       'verification_token' => 'string',
       'tax_supported' => 'bool',
+      'tax_data' => 'tax_data_schema',
       'transaction_lines' => 'array[transaction_lines]',
       'buyer_tax_number' => 'string',
+      'external_key' => 'string',
       'status' => 'string',
       'custom_fields' => 'array[custom_fields]',
       'force_country_code' => 'string',
       'countries' => 'countries',
       'invoice_number' => 'string',
       'order_date' => 'string',
+      'customer_id' => 'string',
       'kind' => 'string',
       'source' => 'string',
       'amount' => 'number',
@@ -138,6 +141,10 @@ class Transactions {
   */
   public $tax_supported; // bool
   /**
+  * Tax additional information - e.g. US sales tax exemption certificate data.
+  */
+  public $tax_data; // tax_data_schema
+  /**
   * Transaction lines.
   */
   public $transaction_lines; // array[transaction_lines]
@@ -145,6 +152,10 @@ class Transactions {
   *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
   */
   public $buyer_tax_number; // string
+  /**
+  * Transaction external key
+  */
+  public $external_key; // string
   /**
   * Transaction status: 'N' - new, 'C' - confirmed, 'X' - cancelled, 'S' - settled. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default state. Not applicable for update-transaction!.
   */
@@ -169,6 +180,10 @@ class Transactions {
   * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
+  /**
+  * Free-form field for storing customer id.
+  */
+  public $customer_id; // string
   /**
   * Transaction kind: eu-b2c, eu-b2b, domestic, untaxed
   */

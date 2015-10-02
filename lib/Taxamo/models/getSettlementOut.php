@@ -37,11 +37,11 @@ class GetSettlementOut {
   */
   public $report; // array[report]
   /**
-  * Quarter start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  * Period start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
   */
   public $start_date; // string
   /**
-  * Quarter end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  * Period end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
   */
   public $end_date; // string
   /**
@@ -49,7 +49,7 @@ class GetSettlementOut {
   */
   public $indicative; // bool
   /**
-  * Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  * Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format. Applies to tax regions where 
   */
   public $fx_rate_date; // string
   }

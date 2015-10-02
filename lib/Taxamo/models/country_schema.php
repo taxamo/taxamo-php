@@ -30,6 +30,7 @@ class Country_schema {
       'tax_supported' => 'bool',
       'name' => 'string',
       'ccn3' => 'string',
+      'tax_region' => 'string',
       'cca3' => 'string',
       'callingCode' => 'array[string]',
       'tax_number_country_code' => 'string',
@@ -62,6 +63,10 @@ class Country_schema {
   * Country ISO 3-digit code.
   */
   public $ccn3; // string
+  /**
+  * Tax region code - e.g. EU, US, NO, JP...
+  */
+  public $tax_region; // string
   /**
   * Three letter ISO country code.
   */

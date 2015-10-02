@@ -38,6 +38,7 @@ class Input_transaction_line {
       'informative' => 'bool',
       'tax_rate' => 'number',
       'total_amount' => 'number',
+      'product_tax_code' => 'string',
       'description' => 'string'
 
     );
@@ -98,6 +99,10 @@ class Input_transaction_line {
   * Total amount. Required if amount is not provided.
   */
   public $total_amount; // number
+  /**
+  * External product tax code for a line, for example TIC in US Sales tax.
+  */
+  public $product_tax_code; // string
   /**
   * Line contents description.
   */

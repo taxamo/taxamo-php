@@ -60,7 +60,7 @@ class Invoice_address {
   */
   public $postal_code; // string
   /**
-  * Region.
+  * Region, for United States - state code - e.g. NJ.
   */
   public $region; // string
   /**

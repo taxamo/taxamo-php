@@ -32,6 +32,7 @@ class Input_transaction {
       'supply_date' => 'string',
       'invoice_address' => 'invoice_address',
       'verification_token' => 'string',
+      'tax_data' => 'tax_data_schema',
       'transaction_lines' => 'array[input_transaction_line]',
       'buyer_tax_number' => 'string',
       'status' => 'string',
@@ -39,6 +40,7 @@ class Input_transaction {
       'force_country_code' => 'string',
       'invoice_number' => 'string',
       'order_date' => 'string',
+      'customer_id' => 'string',
       'buyer_ip' => 'string',
       'buyer_email' => 'string',
       'original_transaction_key' => 'string',
@@ -86,6 +88,10 @@ class Input_transaction {
   */
   public $verification_token; // string
   /**
+  * Tax additional information - e.g. US sales tax exemption certificate data.
+  */
+  public $tax_data; // tax_data_schema
+  /**
   * Transaction lines.
   */
   public $transaction_lines; // array[input_transaction_line]
@@ -113,6 +119,10 @@ class Input_transaction {
   * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
   */
   public $order_date; // string
+  /**
+  * Free-form field for storing customer id.
+  */
+  public $customer_id; // string
   /**
   * IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
   */
@@ -150,7 +160,7 @@ class Input_transaction {
   */
   public $description; // string
   /**
-  * True if the transaction deducted from tax and no tax is applied. Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
+  * True if the transaction is deducted from tax and no tax is applied (it is untaxed). Either set automatically when VAT number validates with VIES correctly, but can also be provided in manual mode.
   */
   public $tax_deducted; // bool
   /**

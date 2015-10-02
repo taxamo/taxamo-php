@@ -29,6 +29,8 @@ class Summary {
       'currency_code' => 'string',
       'indicative' => 'bool',
       'fx_rate_date' => 'string',
+      'start_date' => 'string',
+      'end_date' => 'string',
       'tax_entity_name' => 'string'
 
     );
@@ -53,6 +55,14 @@ class Summary {
   * Date of ECB FX rate used for conversions in yyyy-MM-dd'T'hh:mm:ss'Z' format.
   */
   public $fx_rate_date; // string
+  /**
+  * Period start date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  */
+  public $start_date; // string
+  /**
+  * Period end date in yyyy-MM-dd'T'hh:mm:ss'Z' format.
+  */
+  public $end_date; // string
   /**
   * Tax entity that the tax is due.
   */

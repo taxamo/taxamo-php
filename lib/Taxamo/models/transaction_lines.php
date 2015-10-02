@@ -42,6 +42,7 @@ class Transaction_lines {
       'tax_rate' => 'number',
       'additional_currencies' => 'additional_currencies',
       'total_amount' => 'number',
+      'product_tax_code' => 'string',
       'refunded_tax_amount' => 'number',
       'description' => 'string',
       'refunded_total_amount' => 'number'
@@ -120,6 +121,10 @@ class Transaction_lines {
   * Total amount. Required if amount is not provided.
   */
   public $total_amount; // number
+  /**
+  * External product tax code for a line, for example TIC in US Sales tax.
+  */
+  public $product_tax_code; // string
   /**
   * Refunded tax amount, calculated by taxmo.
   */

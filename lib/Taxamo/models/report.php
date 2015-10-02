@@ -24,43 +24,53 @@
 class Report {
 
   static $swaggerTypes = array(
-      'tax_rate' => 'number',
-      'amount' => 'number',
-      'country_name' => 'string',
-      'country_code' => 'string',
-      'tax_amount' => 'number',
+      'currency_code' => 'string',
       'skip_moss' => 'bool',
-      'currency_code' => 'string'
+      'country_code' => 'string',
+      'tax_region' => 'string',
+      'country_subdivision' => 'string',
+      'amount' => 'number',
+      'tax_amount' => 'number',
+      'tax_rate' => 'number',
+      'country_name' => 'string'
 
     );
 
   /**
-  * Tax rate
+  * Three-letter ISO currency code.
   */
-  public $tax_rate; // number
-  /**
-  * Amount w/o tax
-  */
-  public $amount; // number
-  /**
-  * Country name
-  */
-  public $country_name; // string
-  /**
-  * Two letter ISO country code.
-  */
-  public $country_code; // string
-  /**
-  * Tax amount
-  */
-  public $tax_amount; // number
+  public $currency_code; // string
   /**
   * If true, this line should not be entered into MOSS and is provided for informative purposes only. For example because the country is the same as MOSS registration country and merchant country.
   */
   public $skip_moss; // bool
   /**
-  * Three-letter ISO currency code.
+  * Two letter ISO country code.
   */
-  public $currency_code; // string
+  public $country_code; // string
+  /**
+  * Tax region key
+  */
+  public $tax_region; // string
+  /**
+  * Country subdivision (e.g. state or provice or county)
+  */
+  public $country_subdivision; // string
+  /**
+  * Amount w/o tax
+  */
+  public $amount; // number
+  /**
+  * Tax amount
+  */
+  public $tax_amount; // number
+  /**
+  * Tax rate
+  */
+  public $tax_rate; // number
+  /**
+  * Country name
+  */
+  public $country_name; // string
   }
 

@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "2.0.2";
+    public static $VERSION = "2.0.3";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
@@ -893,6 +893,56 @@ class Taxamo {
 
       }
   /**
+	 * getTransactionsStatsByCountry
+	 * Settlement by country
+   * global_currency_code, string: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
+
+   * date_from, string: Date from in yyyy-MM format. (required)
+
+   * date_to, string: Date to in yyyy-MM format. (required)
+
+   * @return getTransactionsStatsByCountryOut
+	 */
+
+   public function getTransactionsStatsByCountry($global_currency_code=null, $date_from, $date_to) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/stats/transactions/by_country";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($global_currency_code != null) {
+  		  $queryParams['global_currency_code'] = $this->apiClient->toQueryValue($global_currency_code);
+  		}
+  		if($date_from != null) {
+  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
+  		}
+  		if($date_to != null) {
+  		  $queryParams['date_to'] = $this->apiClient->toQueryValue($date_to);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getTransactionsStatsByCountryOut');
+  		return $responseObject;
+
+      }
+  /**
 	 * getTransactionsStats
 	 * Transaction stats
    * date_from, string: Date from in yyyy-MM format. (required)
@@ -1089,12 +1139,14 @@ class Taxamo {
 
    * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
+   * tax_region, string: Tax region key, defaults to EU for backwards compatibility. (optional)
+
    * date_from, string: Take only refunds issued at or after the date. Format: yyyy-MM-dd (required)
 
    * @return getRefundsOut
 	 */
 
-   public function getRefunds($format=null, $moss_country_code=null, $date_from) {
+   public function getRefunds($format=null, $moss_country_code=null, $tax_region=null, $date_from) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/refunds";
@@ -1110,6 +1162,9 @@ class Taxamo {
   		}
   		if($moss_country_code != null) {
   		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
+  		}
+  		if($tax_region != null) {
+  		  $queryParams['tax_region'] = $this->apiClient->toQueryValue($tax_region);
   		}
   		if($date_from != null) {
   		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
@@ -1137,16 +1192,26 @@ class Taxamo {
 	 * Fetch settlement
    * format, string: Output format. 'csv' value is accepted as well (optional)
 
-   * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
+   * moss_country_code, string: MOSS country code, used to determine currency/region. If ommited, merchant default setting is used. Deprecated: please use tax-country-code. (optional)
 
-   * moss_tax_id, string: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
+   * tax_country_code, string: Tax entity country code, used to determine currency/region.  (optional)
 
-   * quarter, string: Quarter in yyyy-MM format. (required)
+   * currency_code, string: ISO 3-letter currency code, e.g. EUR or USD. If provided, all amounts will be coerced for this currency. Defaults to region's currency code. (optional)
+
+   * moss_tax_id, string: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
+
+   * tax_id, string: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. Deprecated, please use tax-id. (optional)
+
+   * start_month, string: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
+
+   * end_month, string: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+
+   * quarter, string: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 
    * @return getSettlementOut
 	 */
 
-   public function getSettlement($format=null, $moss_country_code=null, $moss_tax_id=null, $quarter) {
+   public function getSettlement($format=null, $moss_country_code=null, $tax_country_code=null, $currency_code=null, $moss_tax_id=null, $tax_id=null, $start_month=null, $end_month=null, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/{quarter}";
@@ -1163,8 +1228,23 @@ class Taxamo {
   		if($moss_country_code != null) {
   		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
   		}
+  		if($tax_country_code != null) {
+  		  $queryParams['tax_country_code'] = $this->apiClient->toQueryValue($tax_country_code);
+  		}
+  		if($currency_code != null) {
+  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		}
   		if($moss_tax_id != null) {
   		  $queryParams['moss_tax_id'] = $this->apiClient->toQueryValue($moss_tax_id);
+  		}
+  		if($tax_id != null) {
+  		  $queryParams['tax_id'] = $this->apiClient->toQueryValue($tax_id);
+  		}
+  		if($start_month != null) {
+  		  $queryParams['start_month'] = $this->apiClient->toQueryValue($start_month);
+  		}
+  		if($end_month != null) {
+  		  $queryParams['end_month'] = $this->apiClient->toQueryValue($end_month);
   		}
   		if($quarter != null) {
   			$resourcePath = str_replace("{" . "quarter" . "}",
@@ -1193,12 +1273,18 @@ class Taxamo {
 	 * Fetch summary
    * moss_country_code, string: MOSS country code, used to determine currency. If ommited, merchant default setting is used. (optional)
 
-   * quarter, string: Quarter in yyyy-MM format. (required)
+   * tax_region, string: Tax region key (optional)
+
+   * start_month, string: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
+
+   * end_month, string: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+
+   * quarter, string: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 
    * @return getSettlementSummaryOut
 	 */
 
-   public function getSettlementSummary($moss_country_code=null, $quarter) {
+   public function getSettlementSummary($moss_country_code=null, $tax_region=null, $start_month=null, $end_month=null, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/summary/{quarter}";
@@ -1211,6 +1297,15 @@ class Taxamo {
 
       if($moss_country_code != null) {
   		  $queryParams['moss_country_code'] = $this->apiClient->toQueryValue($moss_country_code);
+  		}
+  		if($tax_region != null) {
+  		  $queryParams['tax_region'] = $this->apiClient->toQueryValue($tax_region);
+  		}
+  		if($start_month != null) {
+  		  $queryParams['start_month'] = $this->apiClient->toQueryValue($start_month);
+  		}
+  		if($end_month != null) {
+  		  $queryParams['end_month'] = $this->apiClient->toQueryValue($end_month);
   		}
   		if($quarter != null) {
   			$resourcePath = str_replace("{" . "quarter" . "}",
@@ -1422,7 +1517,7 @@ class Taxamo {
   		return $responseObject;
 
       }
-  
+
 
 }
 
