@@ -100,7 +100,7 @@ class Input_transaction_update {
   */
   public $buyer_tax_number; // string
   /**
-  * Transaction status: 'N' - new, 'C' - confirmed, 'X' - cancelled, 'S' - settled. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default state. Not applicable for update-transaction!.
+  * Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
   */
   public $status; // string
   /**

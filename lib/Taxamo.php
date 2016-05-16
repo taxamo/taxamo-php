@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "2.0.3";
+    public static $VERSION = "2.0.4";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
@@ -70,6 +70,47 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'createRefundOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * listRefunds
+	 * Get transaction refunds
+   * key, string: Transaction key. (required)
+
+   * @return listRefundsOut
+	 */
+
+   public function listRefunds($key) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/refunds";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'listRefundsOut');
   		return $responseObject;
 
       }
@@ -248,6 +289,55 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'emailInvoiceOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * emailRefund
+	 * Email invoice
+   * key, string: Transaction key. (required)
+
+   * refund_note_number, string: Refund note id. (required)
+
+   * body, emailRefundIn: Input (required)
+
+   * @return emailRefundOut
+	 */
+
+   public function emailRefund($key, $refund_note_number, $body) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/transactions/{key}/invoice/refunds/{refund_note_number}/send_email";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "POST";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($key != null) {
+  			$resourcePath = str_replace("{" . "key" . "}",
+  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  		}
+  		if($refund_note_number != null) {
+  			$resourcePath = str_replace("{" . "refund_note_number" . "}",
+  			                            $this->apiClient->toPathValue($refund_note_number), $resourcePath);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'emailRefundOut');
   		return $responseObject;
 
       }
@@ -456,7 +546,6 @@ class Taxamo {
   		return $responseObject;
 
       }
-
   /**
 	 * unconfirmTransaction
 	 * Un-confirm the transaction. Un-confirmed transaction can be edited or canceled like a newly created one.
@@ -503,27 +592,35 @@ class Taxamo {
   /**
 	 * listTransactions
 	 * Browse transactions
-   * statuses, string: Comma separated list of of transaction statuses. (optional)
-
-   * sort_reverse, bool: If true, results are sorted in descending order. (optional)
-
-   * tax_country_code, string: Two letter ISO tax country code. (optional)
-
-   * order_date_from, string: Order date from in yyyy-MM-dd format. (optional)
-
-   * key_or_custom_id, string: Taxamo provided transaction key or custom id (optional)
+   * filter_text, string: Filtering expression (optional)
 
    * offset, integer: Offset (optional)
 
-   * filter_text, string: Filtering expression (optional)
-
-   * format, string: Output format - supports 'csv' value for this operation. (optional)
-
-   * order_date_to, string: Order date to in yyyy-MM-dd format. (optional)
+   * key_or_custom_id, string: Taxamo provided transaction key or custom id (optional)
 
    * currency_code, string: Three letter ISO currency code. (optional)
 
-   * limit, integer: Limit (optional)
+   * order_date_to, string: Order date to in yyyy-MM-dd format. (optional)
+
+   * sort_reverse, bool: If true, results are sorted in descending order. (optional)
+
+   * limit, integer: Limit (no more than 1000, defaults to 100). (optional)
+
+   * invoice_number, string: Transaction invoice number. (optional)
+
+   * statuses, string: Comma separated list of of transaction statuses. 'N' - unconfirmed transaction, 'C' - confirmed transaction. (optional)
+
+   * original_transaction_key, string: Taxamo provided original transaction key (optional)
+
+   * order_date_from, string: Order date from in yyyy-MM-dd format. (optional)
+
+   * total_amount_greater_than, string: Return only transactions with total amount greater than given number. Transactions with total amount equal to a given number (e.g. 0) are not returned. (optional)
+
+   * format, string: Output format - supports 'csv' value for this operation. (optional)
+
+   * total_amount_less_than, string: Return only transactions with total amount less than a given number. Transactions with total amount equal to a given number (e.g. 1) are not returned. (optional)
+
+   * tax_country_code, string: Two letter ISO tax country code. (optional)
 
    * @return listTransactionsOut
 	 */
@@ -633,29 +730,35 @@ class Taxamo {
   /**
 	 * calculateSimpleTax
 	 * Simple tax
-   * buyer_credit_card_prefix, string: Buyer's credit card prefix. (optional)
-
-   * buyer_tax_number, string:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
-
    * product_type, string: Product type, according to dictionary /dictionaries/product_types.  (optional)
 
-   * force_country_code, string: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
+   * invoice_address_city, string: Invoice address/postal_code (optional)
 
-   * quantity, number: Quantity Defaults to 1. (optional)
+   * buyer_credit_card_prefix, string: Buyer's credit card prefix. (optional)
+
+   * currency_code, string: Currency code for transaction - e.g. EUR. (required)
+
+   * invoice_address_region, string: Invoice address/region (optional)
 
    * unit_price, number: Unit price. (optional)
 
-   * total_amount, number: Total amount. Required if amount is not provided. (optional)
+   * quantity, number: Quantity Defaults to 1. (optional)
 
-   * tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
+   * buyer_tax_number, string:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
+
+   * force_country_code, string: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
+
+   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
 
    * amount, number: Amount. Required if total amount is not provided. (optional)
 
    * billing_country_code, string: Billing two letter ISO country code. (optional)
 
-   * currency_code, string: Currency code for transaction - e.g. EUR. (required)
+   * invoice_address_postal_code, string: Invoice address/postal_code (optional)
 
-   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
+   * total_amount, number: Total amount. Required if amount is not provided. (optional)
+
+   * tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
 
    * @return calculateSimpleTaxOut
 	 */
@@ -1129,6 +1232,146 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'getDailySettlementStatsOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * getEuViesReport
+	 * Calculate EU VIES report.
+   * format, string: Output format. 'xml' and 'csv' values are accepted as well (optional)
+
+   * transformation, string: Which transformation should be applied. Please note that transformation will be applied only for xml and csv formats. (optional)
+
+   * eu_country_code, string: ISO 2-letter country code which will be used for determining which country is domestic. (required)
+
+   * currency_code, string: ISO 3-letter currency code, e.g. EUR or USD. Defaults to the one assigned to MOSS calculations for a given country code. (optional)
+
+   * tax_id, string: MOSS-assigned tax ID - if not provided, merchant's national tax number will be used. (optional)
+
+   * start_month, string: Period start month in yyyy-MM format. (required)
+
+   * end_month, string: Period end month in yyyy-MM-dd format. (required)
+
+   * fx_date_type, string: Which date should be used for FX. (optional)
+
+   * @return getEuViesReportOut
+	 */
+
+   public function getEuViesReport($format=null, $transformation=null, $eu_country_code, $currency_code=null, $tax_id=null, $start_month, $end_month, $fx_date_type=null) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/reports/eu/vies";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($format != null) {
+  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($transformation != null) {
+  		  $queryParams['transformation'] = $this->apiClient->toQueryValue($transformation);
+  		}
+  		if($eu_country_code != null) {
+  		  $queryParams['eu_country_code'] = $this->apiClient->toQueryValue($eu_country_code);
+  		}
+  		if($currency_code != null) {
+  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		}
+  		if($tax_id != null) {
+  		  $queryParams['tax_id'] = $this->apiClient->toQueryValue($tax_id);
+  		}
+  		if($start_month != null) {
+  		  $queryParams['start_month'] = $this->apiClient->toQueryValue($start_month);
+  		}
+  		if($end_month != null) {
+  		  $queryParams['end_month'] = $this->apiClient->toQueryValue($end_month);
+  		}
+  		if($fx_date_type != null) {
+  		  $queryParams['fx_date_type'] = $this->apiClient->toQueryValue($fx_date_type);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getEuViesReportOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * getDomesticSummaryReport
+	 * Calculate domestic summary.
+   * format, string: Output format. 'xml' and 'csv' values are accepted. Default format - json (optional)
+
+   * country_code, string: ISO 2-letter country code which will be used for determining which country is domestic. (required)
+
+   * currency_code, string: ISO 3-letter currency code, e.g. EUR or USD. Defaults to the one assigned to MOSS calculations for a given country code. (optional)
+
+   * start_month, string: Period start month in yyyy-MM format. (required)
+
+   * end_month, string: Period end month in yyyy-MM-dd format. (required)
+
+   * fx_date_type, string: Which date should be used for FX. (optional)
+
+   * @return getDomesticSummaryReportOut
+	 */
+
+   public function getDomesticSummaryReport($format=null, $country_code, $currency_code=null, $start_month, $end_month, $fx_date_type=null) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/reports/domestic/summary";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($format != null) {
+  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($country_code != null) {
+  		  $queryParams['country_code'] = $this->apiClient->toQueryValue($country_code);
+  		}
+  		if($currency_code != null) {
+  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		}
+  		if($start_month != null) {
+  		  $queryParams['start_month'] = $this->apiClient->toQueryValue($start_month);
+  		}
+  		if($end_month != null) {
+  		  $queryParams['end_month'] = $this->apiClient->toQueryValue($end_month);
+  		}
+  		if($fx_date_type != null) {
+  		  $queryParams['fx_date_type'] = $this->apiClient->toQueryValue($fx_date_type);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getDomesticSummaryReportOut');
   		return $responseObject;
 
       }
