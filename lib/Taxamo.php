@@ -35,44 +35,44 @@ class Taxamo {
 	 * Create a refund
    * key, string: Transaction key. (required)
 
-   * body, createRefundIn: Input (required)
+   * queryParams, createRefundIn: Input (required)
 
    * @return createRefundOut
 	 */
 
-   public function createRefund($key, $body) {
+  public function createRefund($key, $queryParams) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}/refunds";
   		$resourcePath = str_replace("{format}", "json", $resourcePath);
   		$method = "POST";
-      $queryParams = array();
-      $headerParams = array();
-      $headerParams['Accept'] = 'application/json';
-      $headerParams['Content-Type'] = 'application/json';
+    $headerParams = array();
+    $headerParams['Accept'] = 'application/json';
+    $headerParams['Content-Type'] = 'application/json';
 
-      if($key != null) {
+    if($key != null) {
   			$resourcePath = str_replace("{" . "key" . "}",
-  			                            $this->apiClient->toPathValue($key), $resourcePath);
+  			$this->apiClient->toPathValue($key), $resourcePath);
   		}
   		//make the API Call
-      if (! isset($body)) {
-        $body = null;
-      }
+    if (!isset($body)) {
+      $body = null;
+    }
   		$response = $this->apiClient->callAPI($resourcePath, $method,
   		                                      $queryParams, $body,
   		                                      $headerParams);
 
 
-      if(! $response){
-          return null;
-        }
+    if (! $response){
+      return null;
+    }
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'createRefundOut');
   		return $responseObject;
 
-      }
+  }
+
   /**
 	 * listRefunds
 	 * Get transaction refunds
