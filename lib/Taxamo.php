@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "2.0.5";
+    public static $VERSION = "2.0.6";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
