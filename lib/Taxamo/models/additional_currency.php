@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ class Additional_currency {
       'amount' => 'number',
       'tax_amount' => 'number',
       'fx_rate' => 'number',
+      'fx_date' => 'string',
       'total_amount' => 'number'
 
     );
@@ -48,6 +49,10 @@ class Additional_currency {
   * Foreign exchange rate used in calculation
   */
   public $fx_rate; // number
+  /**
+  * Date to use when calculating invoice FX rate. Defaults to transaction's order date.
+  */
+  public $fx_date; // string
   /**
   * Total amount in designated currency.
   */

@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,23 +24,29 @@
 class Input_transaction_update {
 
   static $swaggerTypes = array(
+      'order_date_type' => 'string',
       'buyer_credit_card_prefix' => 'string',
       'custom_data' => 'string',
       'buyer_name' => 'string',
       'invoice_date' => 'string',
       'currency_code' => 'string',
+      'sub_account_id' => 'string',
       'supply_date' => 'string',
+      'control_flags' => 'array[control_flags]',
       'invoice_address' => 'invoice_address',
       'verification_token' => 'string',
+      'note' => 'string',
       'tax_data' => 'tax_data_schema',
       'transaction_lines' => 'array[input_transaction_line]',
       'buyer_tax_number' => 'string',
+      'additional_interactions' => 'array[additional_interactions]',
       'status' => 'string',
       'custom_fields' => 'array[custom_fields]',
       'force_country_code' => 'string',
       'invoice_number' => 'string',
       'order_date' => 'string',
       'customer_id' => 'string',
+      'comments' => 'string',
       'buyer_ip' => 'string',
       'buyer_email' => 'string',
       'original_transaction_key' => 'string',
@@ -56,7 +62,11 @@ class Input_transaction_update {
     );
 
   /**
-  * Buyer's credit card prefix.
+  * 'timestamp' means that an order date was captured with a full timestamp and can be applied to an FX source which distinguishes time of the day. Empty value or 'day' means that only day information is present.
+  */
+  public $order_date_type; // string
+  /**
+  * First 6 digits of buyer's credit card prefix.
   */
   public $buyer_credit_card_prefix; // string
   /**
@@ -76,9 +86,17 @@ class Input_transaction_update {
   */
   public $currency_code; // string
   /**
+  * Sub account identifier.
+  */
+  public $sub_account_id; // string
+  /**
   * Supply date in yyyy-MM-dd format.
   */
   public $supply_date; // string
+  /**
+  * Control flags, stored as key-value string pairs. Possible flags (keys): &quot;b2b-number-service-timeoutms&quot;, &quot;b2b-number-service-expiry-days&quot;, &quot;b2b-number-service-on-error&quot; (value &quot;accept&quot;). Region code can be appended to all of the keys, e.g. &quot;b2b-number-service-timeoutms-EU&quot;. 
+  */
+  public $control_flags; // array[control_flags]
   /**
   * Invoice address.
   */
@@ -87,6 +105,10 @@ class Input_transaction_update {
   * Verification token
   */
   public $verification_token; // string
+  /**
+  * Additional note related to transaction state - for example if the transaction was created in a 'catch-all' mode or the VAT number re-check for subscriptions has failed.
+  */
+  public $note; // string
   /**
   * Tax additional information - e.g. US sales tax exemption certificate data.
   */
@@ -99,6 +121,10 @@ class Input_transaction_update {
   *  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly.
   */
   public $buyer_tax_number; // string
+  /**
+  * Information about additional interactions necessary/available.
+  */
+  public $additional_interactions; // array[additional_interactions]
   /**
   * Transaction status: 'N' - new, 'C' - confirmed. Can use 'C' in store-transaction! with private-token to create confirmed transaction, otherwise 'N' is default status. Not applicable for update-transaction!.
   */
@@ -116,13 +142,17 @@ class Input_transaction_update {
   */
   public $invoice_number; // string
   /**
-  * Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used.
+  * Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example.
   */
   public $order_date; // string
   /**
   * Free-form field for storing customer id.
   */
   public $customer_id; // string
+  /**
+  * Additional information about the transaction - for example if the evidence has been amended.
+  */
+  public $comments; // string
   /**
   * IP address of the buyer in dotted decimal (IPv4) or text format (IPv6).
   */

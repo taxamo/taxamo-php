@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@ class ValidateTaxNumberOut {
   static $swaggerTypes = array(
       'tax_deducted' => 'bool',
       'buyer_tax_number' => 'string',
+      'buyer_tax_number_normalized' => 'string',
       'buyer_tax_number_valid' => 'bool',
+      'buyer_tax_number_format_valid' => 'bool',
       'billing_country_code' => 'string'
 
     );
@@ -40,9 +42,17 @@ class ValidateTaxNumberOut {
   */
   public $buyer_tax_number; // string
   /**
+  * Buyer's tax number - normalized form.
+  */
+  public $buyer_tax_number_normalized; // string
+  /**
   * If the buyer tax number has been provided and was validated successfully. Always true for domestic transactions (billing country same as merchant's country), tax number doesn't get validated in that case.
   */
   public $buyer_tax_number_valid; // bool
+  /**
+  * If the buyer tax number has been checked for syntax and is correct. It does not determine if the transaction should be tax deducted.
+  */
+  public $buyer_tax_number_format_valid; // bool
   /**
   * Billing two letter ISO country code.
   */

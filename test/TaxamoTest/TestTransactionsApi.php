@@ -179,7 +179,7 @@ class Taxamo_TransactionsTest extends TaxamoTestCase
     $this->assertEqual("C", $resp->transaction->status);
     $resp = $this->getApi()->getTransaction($resp->transaction->key);
     $this->assertEqual("C", $resp->transaction->status);
-    $this->assertNotNull($resp->transaction->invoice_image_url);
+    //$this->assertNotNull($resp->transaction->invoice_image_url);
 
     time_nanosleep(1, 0);
 

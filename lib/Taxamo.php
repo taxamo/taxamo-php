@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014-2015 Taxamo
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "2.0.4";
+    public static $VERSION = "2.0.5";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
@@ -294,7 +294,7 @@ class Taxamo {
       }
   /**
 	 * emailRefund
-	 * Email invoice
+	 * Email credit note
    * key, string: Transaction key. (required)
 
    * refund_note_number, string: Refund note id. (required)
@@ -548,7 +548,7 @@ class Taxamo {
       }
   /**
 	 * unconfirmTransaction
-	 * Un-confirm the transaction. Un-confirmed transaction can be edited or canceled like a newly created one.
+	 * Un-confirm the transaction
    * key, string: Transaction key. (optional)
 
    * body, unconfirmTransactionIn: Input (required)
@@ -592,9 +592,11 @@ class Taxamo {
   /**
 	 * listTransactions
 	 * Browse transactions
-   * filter_text, string: Filtering expression (optional)
+   * filter_text, string: Filtering expression. Placeholder field, not supported yet. (optional)
 
    * offset, integer: Offset (optional)
+
+   * has_note, bool: Return only transactions with a note field set. (optional)
 
    * key_or_custom_id, string: Taxamo provided transaction key or custom id (optional)
 
@@ -607,6 +609,8 @@ class Taxamo {
    * limit, integer: Limit (no more than 1000, defaults to 100). (optional)
 
    * invoice_number, string: Transaction invoice number. (optional)
+
+   * tax_country_codes, string: Comma separated list of two letter ISO tax country codes. (optional)
 
    * statuses, string: Comma separated list of of transaction statuses. 'N' - unconfirmed transaction, 'C' - confirmed transaction. (optional)
 
@@ -625,7 +629,7 @@ class Taxamo {
    * @return listTransactionsOut
 	 */
 
-   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null, $invoice_number=null) {
+   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null, $invoice_number=null, $original_transaction_key=null, $total_amount_greater_than=null, $total_amount_less_than=null, $tax_country_code=null, $has_note=null, $tax_country_codes=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions";
@@ -636,42 +640,57 @@ class Taxamo {
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
-      if($statuses != null) {
-  		  $queryParams['statuses'] = $this->apiClient->toQueryValue($statuses);
-  		}
-  		if($sort_reverse != null) {
-  		  $queryParams['sort_reverse'] = $this->apiClient->toQueryValue($sort_reverse);
-  		}
-  		if($tax_country_code != null) {
-  		  $queryParams['tax_country_code'] = $this->apiClient->toQueryValue($tax_country_code);
-  		}
-  		if($order_date_from != null) {
-  		  $queryParams['order_date_from'] = $this->apiClient->toQueryValue($order_date_from);
-  		}
-  		if($key_or_custom_id != null) {
-  		  $queryParams['key_or_custom_id'] = $this->apiClient->toQueryValue($key_or_custom_id);
+      if($filter_text != null) {
+  		  $queryParams['filter_text'] = $this->apiClient->toQueryValue($filter_text);
   		}
   		if($offset != null) {
   		  $queryParams['offset'] = $this->apiClient->toQueryValue($offset);
   		}
-  		if($filter_text != null) {
-  		  $queryParams['filter_text'] = $this->apiClient->toQueryValue($filter_text);
+  		if($has_note != null) {
+  		  $queryParams['has_note'] = $this->apiClient->toQueryValue($has_note);
   		}
-  		if($format != null) {
-  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		if($key_or_custom_id != null) {
+  		  $queryParams['key_or_custom_id'] = $this->apiClient->toQueryValue($key_or_custom_id);
+  		}
+  		if($currency_code != null) {
+  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
   		}
   		if($order_date_to != null) {
   		  $queryParams['order_date_to'] = $this->apiClient->toQueryValue($order_date_to);
   		}
-  		if($currency_code != null) {
-  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		if($sort_reverse != null) {
+  		  $queryParams['sort_reverse'] = $this->apiClient->toQueryValue($sort_reverse);
   		}
   		if($limit != null) {
   		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
   		}
   		if($invoice_number != null) {
-          $queryParams['invoice_number'] = $this->apiClient->toQueryValue($invoice_number);
-        }
+  		  $queryParams['invoice_number'] = $this->apiClient->toQueryValue($invoice_number);
+  		}
+  		if($tax_country_codes != null) {
+  		  $queryParams['tax_country_codes'] = $this->apiClient->toQueryValue($tax_country_codes);
+  		}
+  		if($statuses != null) {
+  		  $queryParams['statuses'] = $this->apiClient->toQueryValue($statuses);
+  		}
+  		if($original_transaction_key != null) {
+  		  $queryParams['original_transaction_key'] = $this->apiClient->toQueryValue($original_transaction_key);
+  		}
+  		if($order_date_from != null) {
+  		  $queryParams['order_date_from'] = $this->apiClient->toQueryValue($order_date_from);
+  		}
+  		if($total_amount_greater_than != null) {
+  		  $queryParams['total_amount_greater_than'] = $this->apiClient->toQueryValue($total_amount_greater_than);
+  		}
+  		if($format != null) {
+  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($total_amount_less_than != null) {
+  		  $queryParams['total_amount_less_than'] = $this->apiClient->toQueryValue($total_amount_less_than);
+  		}
+  		if($tax_country_code != null) {
+  		  $queryParams['tax_country_code'] = $this->apiClient->toQueryValue($tax_country_code);
+  		}
   		//make the API Call
       if (! isset($body)) {
         $body = null;
@@ -734,7 +753,7 @@ class Taxamo {
 
    * invoice_address_city, string: Invoice address/postal_code (optional)
 
-   * buyer_credit_card_prefix, string: Buyer's credit card prefix. (optional)
+   * buyer_credit_card_prefix, string: First 6 digits of buyer's credit card prefix. (optional)
 
    * currency_code, string: Currency code for transaction - e.g. EUR. (required)
 
@@ -746,24 +765,30 @@ class Taxamo {
 
    * buyer_tax_number, string:  Buyer's tax number - EU VAT number for example. If using EU VAT number, it is possible to provide country code in it (e.g. IE1234567X) or simply use billing_country_code field for that. In the first case, if billing_country_code value was provided, it will be overwritten with country code value extracted from VAT number - but only if the VAT has been verified properly. (optional)
 
+   * b2b_number_service_on_error, string: If this field is set to 'accept' and the B2B service check fails due to timeout or other issue, treat the transaction as successful. (optional)
+
+   * b2b_number_service_timeoutms, string: B2B lookup timeout in ms, please use the full endpoint for more flexibility. (optional)
+
    * force_country_code, string: Two-letter ISO country code, e.g. FR. Use it to force country code for tax calculation. (optional)
 
-   * order_date, string: Order date in yyyy-MM-dd format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time. When using public token, the default value is used. (optional)
+   * order_date, string: Order date in yyyy-MM-dd or yyyy-MM-dd HH:mm:ss or yyyy-MM-dd'T'HH:mm:ss'Z' format, in merchant's timezone. If provided by the API caller, no timezone conversion is performed. Default value is current date and time in merchant's timezone. When using public token, the default value is used. When time is provided, it is assumed that the date has full resolution, which affects some regions FX rate calculation - Serbia for example. (optional)
 
-   * amount, number: Amount. Required if total amount is not provided. (optional)
+   * b2b_number_service_cache_expiry_days, string: Override a number of days that the B2B validation cache applies to. Default is 30. (optional)
+
+   * amount, number: Amount. Required if total amount or both unit price and quantity are not provided. (optional)
 
    * billing_country_code, string: Billing two letter ISO country code. (optional)
 
    * invoice_address_postal_code, string: Invoice address/postal_code (optional)
 
-   * total_amount, number: Total amount. Required if amount is not provided. (optional)
+   * total_amount, number: Total amount. Required if amount or both unit price and quantity are not provided. (optional)
 
    * tax_deducted, bool: If the transaction is in a country supported by Taxamo, but the tax is not calculated due to merchant settings or EU B2B transaction for example. (optional)
 
    * @return calculateSimpleTaxOut
 	 */
 
-   public function calculateSimpleTax($buyer_credit_card_prefix=null, $buyer_tax_number=null, $product_type=null, $force_country_code=null, $quantity=null, $unit_price=null, $total_amount=null, $tax_deducted=null, $amount=null, $billing_country_code=null, $currency_code, $order_date=null) {
+   public function calculateSimpleTax($buyer_credit_card_prefix=null, $buyer_tax_number=null, $product_type=null, $force_country_code=null, $quantity=null, $unit_price=null, $total_amount=null, $tax_deducted=null, $amount=null, $billing_country_code=null, $currency_code, $order_date=null, $b2b_number_service_on_error=null, $b2b_number_service_timeoutms=null, $b2b_number_service_cache_expiry_days=null, $invoice_address_postal_code=null, $invoice_address_region=null, $invoice_address_city=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/tax/calculate";
@@ -774,29 +799,44 @@ class Taxamo {
       $headerParams['Accept'] = 'application/json';
       $headerParams['Content-Type'] = 'application/json';
 
-      if($buyer_credit_card_prefix != null) {
-  		  $queryParams['buyer_credit_card_prefix'] = $this->apiClient->toQueryValue($buyer_credit_card_prefix);
-  		}
-  		if($buyer_tax_number != null) {
-  		  $queryParams['buyer_tax_number'] = $this->apiClient->toQueryValue($buyer_tax_number);
-  		}
-  		if($product_type != null) {
+      if($product_type != null) {
   		  $queryParams['product_type'] = $this->apiClient->toQueryValue($product_type);
   		}
-  		if($force_country_code != null) {
-  		  $queryParams['force_country_code'] = $this->apiClient->toQueryValue($force_country_code);
+  		if($invoice_address_city != null) {
+  		  $queryParams['invoice_address_city'] = $this->apiClient->toQueryValue($invoice_address_city);
   		}
-  		if($quantity != null) {
-  		  $queryParams['quantity'] = $this->apiClient->toQueryValue($quantity);
+  		if($buyer_credit_card_prefix != null) {
+  		  $queryParams['buyer_credit_card_prefix'] = $this->apiClient->toQueryValue($buyer_credit_card_prefix);
+  		}
+  		if($currency_code != null) {
+  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		}
+  		if($invoice_address_region != null) {
+  		  $queryParams['invoice_address_region'] = $this->apiClient->toQueryValue($invoice_address_region);
   		}
   		if($unit_price != null) {
   		  $queryParams['unit_price'] = $this->apiClient->toQueryValue($unit_price);
   		}
-  		if($total_amount != null) {
-  		  $queryParams['total_amount'] = $this->apiClient->toQueryValue($total_amount);
+  		if($quantity != null) {
+  		  $queryParams['quantity'] = $this->apiClient->toQueryValue($quantity);
   		}
-  		if($tax_deducted != null) {
-  		  $queryParams['tax_deducted'] = $this->apiClient->toQueryValue($tax_deducted);
+  		if($buyer_tax_number != null) {
+  		  $queryParams['buyer_tax_number'] = $this->apiClient->toQueryValue($buyer_tax_number);
+  		}
+  		if($b2b_number_service_on_error != null) {
+  		  $queryParams['b2b_number_service_on_error'] = $this->apiClient->toQueryValue($b2b_number_service_on_error);
+  		}
+  		if($b2b_number_service_timeoutms != null) {
+  		  $queryParams['b2b_number_service_timeoutms'] = $this->apiClient->toQueryValue($b2b_number_service_timeoutms);
+  		}
+  		if($force_country_code != null) {
+  		  $queryParams['force_country_code'] = $this->apiClient->toQueryValue($force_country_code);
+  		}
+  		if($order_date != null) {
+  		  $queryParams['order_date'] = $this->apiClient->toQueryValue($order_date);
+  		}
+  		if($b2b_number_service_cache_expiry_days != null) {
+  		  $queryParams['b2b_number_service_cache_expiry_days'] = $this->apiClient->toQueryValue($b2b_number_service_cache_expiry_days);
   		}
   		if($amount != null) {
   		  $queryParams['amount'] = $this->apiClient->toQueryValue($amount);
@@ -804,11 +844,14 @@ class Taxamo {
   		if($billing_country_code != null) {
   		  $queryParams['billing_country_code'] = $this->apiClient->toQueryValue($billing_country_code);
   		}
-  		if($currency_code != null) {
-  		  $queryParams['currency_code'] = $this->apiClient->toQueryValue($currency_code);
+  		if($invoice_address_postal_code != null) {
+  		  $queryParams['invoice_address_postal_code'] = $this->apiClient->toQueryValue($invoice_address_postal_code);
   		}
-  		if($order_date != null) {
-  		  $queryParams['order_date'] = $this->apiClient->toQueryValue($order_date);
+  		if($total_amount != null) {
+  		  $queryParams['total_amount'] = $this->apiClient->toQueryValue($total_amount);
+  		}
+  		if($tax_deducted != null) {
+  		  $queryParams['tax_deducted'] = $this->apiClient->toQueryValue($tax_deducted);
   		}
   		//make the API Call
       if (! isset($body)) {
@@ -879,7 +922,7 @@ class Taxamo {
 	 * Calculate location
    * billing_country_code, string: Billing two letter ISO country code. (optional)
 
-   * buyer_credit_card_prefix, string: Buyer's credit card prefix. (optional)
+   * buyer_credit_card_prefix, string: First 6 digits of buyer's credit card prefix. (optional)
 
    * @return calculateTaxLocationOut
 	 */
@@ -997,12 +1040,12 @@ class Taxamo {
       }
   /**
 	 * getTransactionsStatsByCountry
-	 * Settlement by country
+	 * Transaction stats by country
    * global_currency_code, string: Global currency code to use for conversion - in addition to country's currency if rate is available. Conversion is indicative and based on most-recent rate from ECB. (optional)
 
-   * date_from, string: Date from in yyyy-MM format. (required)
+   * date_from, string: Date from in yyyy-MM-dd format. (required)
 
-   * date_to, string: Date to in yyyy-MM format. (required)
+   * date_to, string: Date to in yyyy-MM-dd format. (required)
 
    * @return getTransactionsStatsByCountryOut
 	 */
@@ -1048,9 +1091,9 @@ class Taxamo {
   /**
 	 * getTransactionsStats
 	 * Transaction stats
-   * date_from, string: Date from in yyyy-MM format. (required)
+   * date_from, string: Date from in yyyy-MM-dd format. (required)
 
-   * date_to, string: Date to in yyyy-MM format. (required)
+   * date_to, string: Date to in yyyy-MM-dd format. (required)
 
    * interval, string: Interval. Accepted values are 'day', 'week' and 'month'. (optional)
 
@@ -1098,9 +1141,9 @@ class Taxamo {
   /**
 	 * getSettlementStatsByCountry
 	 * Settlement by country
-   * date_from, string: Date from in yyyy-MM format. (required)
+   * date_from, string: Date from in yyyy-MM-dd format. (required)
 
-   * date_to, string: Date to in yyyy-MM format. (required)
+   * date_to, string: Date to in yyyy-MM-dd format. (required)
 
    * @return getSettlementStatsByCountryOut
 	 */
@@ -1143,9 +1186,9 @@ class Taxamo {
   /**
 	 * getSettlementStatsByTaxationType
 	 * Settlement by tax type
-   * date_from, string: Date from in yyyy-MM format. (required)
+   * date_from, string: Date from in yyyy-MM-dd format. (required)
 
-   * date_to, string: Date to in yyyy-MM format. (required)
+   * date_to, string: Date to in yyyy-MM-dd format. (required)
 
    * @return getSettlementStatsByTaxationTypeOut
 	 */
@@ -1190,9 +1233,9 @@ class Taxamo {
 	 * Settlement stats over time
    * interval, string: Interval type - day, week, month. (required)
 
-   * date_from, string: Date from in yyyy-MM format. (required)
+   * date_from, string: Date from in yyyy-MM-dd format. (required)
 
-   * date_to, string: Date to in yyyy-MM format. (required)
+   * date_to, string: Date to in yyyy-MM-dd format. (required)
 
    * @return getDailySettlementStatsOut
 	 */
@@ -1312,7 +1355,7 @@ class Taxamo {
       }
   /**
 	 * getDomesticSummaryReport
-	 * Calculate domestic summary.
+	 * Calculate domestic summary
    * format, string: Output format. 'xml' and 'csv' values are accepted. Default format - json (optional)
 
    * country_code, string: ISO 2-letter country code which will be used for determining which country is domestic. (required)
@@ -1321,7 +1364,7 @@ class Taxamo {
 
    * start_month, string: Period start month in yyyy-MM format. (required)
 
-   * end_month, string: Period end month in yyyy-MM-dd format. (required)
+   * end_month, string: Period end month in yyyy-MM format. (required)
 
    * fx_date_type, string: Which date should be used for FX. (optional)
 
@@ -1372,6 +1415,71 @@ class Taxamo {
 
   		$responseObject = $this->apiClient->deserialize($response,
   		                                                'getDomesticSummaryReportOut');
+  		return $responseObject;
+
+      }
+  /**
+	 * getDetailedRefunds
+	 * Detailed refunds
+   * format, string: Output format. 'json' or 'csv'. Default value is 'json' (optional)
+
+   * country_codes, string: Comma separated list of 2-letter country codes (optional)
+
+   * date_from, string: Take only refunds issued at or after the date. Format: yyyy-MM-dd (optional)
+
+   * date_to, string: Take only refunds issued at or before the date. Format: yyyy-MM-dd (optional)
+
+   * limit, number: Limit (no more than 1000, defaults to 100). (optional)
+
+   * offset, number: Offset. Defaults to 0 (optional)
+
+   * @return getDetailedRefundsOut
+	 */
+
+   public function getDetailedRefunds($format=null, $country_codes=null, $date_from=null, $date_to=null, $limit=null, $offset=null) {
+
+  		//parse inputs
+  		$resourcePath = "/api/v1/settlement/detailed_refunds";
+  		$resourcePath = str_replace("{format}", "json", $resourcePath);
+  		$method = "GET";
+      $queryParams = array();
+      $headerParams = array();
+      $headerParams['Accept'] = 'application/json';
+      $headerParams['Content-Type'] = 'application/json';
+
+      if($format != null) {
+  		  $queryParams['format'] = $this->apiClient->toQueryValue($format);
+  		}
+  		if($country_codes != null) {
+  		  $queryParams['country_codes'] = $this->apiClient->toQueryValue($country_codes);
+  		}
+  		if($date_from != null) {
+  		  $queryParams['date_from'] = $this->apiClient->toQueryValue($date_from);
+  		}
+  		if($date_to != null) {
+  		  $queryParams['date_to'] = $this->apiClient->toQueryValue($date_to);
+  		}
+  		if($limit != null) {
+  		  $queryParams['limit'] = $this->apiClient->toQueryValue($limit);
+  		}
+  		if($offset != null) {
+  		  $queryParams['offset'] = $this->apiClient->toQueryValue($offset);
+  		}
+  		//make the API Call
+      if (! isset($body)) {
+        $body = null;
+      }
+  		$response = $this->apiClient->callAPI($resourcePath, $method,
+  		                                      $queryParams, $body,
+  		                                      $headerParams);
+
+
+      if(! $response){
+          return null;
+        }
+
+  		$responseObject = $this->apiClient->deserialize($response,
+  		                                                'getDetailedRefundsOut');
   		return $responseObject;
 
       }
@@ -1520,7 +1628,7 @@ class Taxamo {
 
    * start_month, string: Period start month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
-   * end_month, string: Period end month in yyyy-MM-dd format. Either quarter or start-month and end-month have to be provided. (optional)
+   * end_month, string: Period end month in yyyy-MM format. Either quarter or start-month and end-month have to be provided. (optional)
 
    * quarter, string: Quarter in yyyy-MM format. If start-date and end-date are provided, quarter is ignored and should be set to 'range'. (required)
 

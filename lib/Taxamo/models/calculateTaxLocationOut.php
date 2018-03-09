@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ class CalculateTaxLocationOut {
   */
   public $billing_country_code; // string
   /**
-  * Buyer's credit card prefix.
+  * First 6 digits of buyer's credit card prefix.
   */
   public $buyer_credit_card_prefix; // string
   /**

@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ class Refunds {
       'refund_note_number' => 'string',
       'line_key' => 'string',
       'refund_timestamp' => 'string',
+      'refund_note_number_expanded' => 'string',
       'amount' => 'number',
       'informative' => 'bool',
       'tax_amount' => 'number',
@@ -53,6 +54,10 @@ class Refunds {
   * Refund timestamp in UTC timezone.
   */
   public $refund_timestamp; // string
+  /**
+  * Refund note number with CN-{{invoice-number}}-{{refund-number}} pattern.
+  */
+  public $refund_note_number_expanded; // string
   /**
   * Amount, excluding tax, that was refunded.
   */

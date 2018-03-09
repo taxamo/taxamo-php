@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ class Input_transaction_line {
 
   static $swaggerTypes = array(
       'product_type' => 'string',
+      'deducted_tax_rate' => 'number',
       'supply_date' => 'string',
       'unit_price' => 'number',
       'unit_of_measure' => 'string',
@@ -47,6 +48,10 @@ class Input_transaction_line {
   * Product type, according to dictionary /dictionaries/product_types. 
   */
   public $product_type; // string
+  /**
+  * Deducted tax rate, calculated by taxamo.
+  */
+  public $deducted_tax_rate; // number
   /**
   * Date of supply in yyyy-MM-dd format.
   */
@@ -80,7 +85,7 @@ class Input_transaction_line {
   */
   public $product_code; // string
   /**
-  * Amount. Required if total amount is not provided.
+  * Amount. Required if total amount or both unit price and quantity are not provided.
   */
   public $amount; // number
   /**
@@ -96,7 +101,7 @@ class Input_transaction_line {
   */
   public $tax_rate; // number
   /**
-  * Total amount. Required if amount is not provided.
+  * Total amount. Required if amount or both unit price and quantity are not provided.
   */
   public $total_amount; // number
   /**

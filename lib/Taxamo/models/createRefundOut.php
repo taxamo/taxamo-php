@@ -1,6 +1,6 @@
 <?php namespace Taxamo;
 /**
- *  Copyright 2014 Taxamo, Ltd.
+ *  Copyright 2014-2018 Taxamo
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,7 +27,9 @@ class CreateRefundOut {
       'total_amount' => 'number',
       'tax_amount' => 'number',
       'refunded_total_amount' => 'number',
-      'refunded_tax_amount' => 'number'
+      'refunded_tax_amount' => 'number',
+      'refund_note_number' => 'string',
+      'refund_note_number_expanded' => 'string'
 
     );
 
@@ -47,5 +49,13 @@ class CreateRefundOut {
   * Total tax amount, that was refunded for this line.
   */
   public $refunded_tax_amount; // number
+  /**
+  * Sequential refund note number.
+  */
+  public $refund_note_number; // string
+  /**
+  * Refund note number with CN-{{invoice-number}}-{{refund-number}} pattern.
+  */
+  public $refund_note_number_expanded; // string
   }
 
