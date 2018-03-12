@@ -24,7 +24,7 @@ require(dirname(__FILE__) . '/Taxamo/Swagger.php');
 
 class Taxamo {
 
-    public static $VERSION = "2.0.6";
+    public static $VERSION = "2.0.7";
 
 	function __construct($apiClient) {
 	  $this->apiClient = $apiClient;
@@ -629,7 +629,7 @@ class Taxamo {
    * @return listTransactionsOut
 	 */
 
-   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null, $invoice_number=null, $original_transaction_key=null, $total_amount_greater_than=null, $total_amount_less_than=null, $tax_country_code=null, $has_note=null, $tax_country_codes=null) {
+   public function listTransactions($statuses=null, $sort_reverse=null, $tax_country_code=null, $order_date_from=null, $key_or_custom_id=null, $offset=null, $filter_text=null, $format=null, $order_date_to=null, $currency_code=null, $limit=null, $invoice_number=null, $original_transaction_key=null, $total_amount_greater_than=null, $total_amount_less_than=null, $has_note=null, $tax_country_codes=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions";
