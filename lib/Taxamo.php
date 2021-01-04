@@ -169,7 +169,7 @@ class Taxamo {
    * @return listPaymentsOut
 	 */
 
-   public function listPayments($limit=null, $offset=null, $key) {
+   public function listPayments($limit, $offset, $key) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}/payments";
@@ -259,7 +259,7 @@ class Taxamo {
    * @return emailInvoiceOut
 	 */
 
-   public function emailInvoice($key=null, $body) {
+   public function emailInvoice($key, $body) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}/invoice/send_email";
@@ -429,7 +429,7 @@ class Taxamo {
    * @return updateTransactionOut
 	 */
 
-   public function updateTransaction($key=null, $body) {
+   public function updateTransaction($key, $body) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}";
@@ -472,7 +472,7 @@ class Taxamo {
    * @return confirmTransactionOut
 	 */
 
-   public function confirmTransaction($key=null, $body) {
+   public function confirmTransaction($key, $body) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}/confirm";
@@ -556,7 +556,7 @@ class Taxamo {
    * @return unconfirmTransactionOut
 	 */
 
-   public function unconfirmTransaction($key=null, $body) {
+   public function unconfirmTransaction($key, $body) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/transactions/{key}/unconfirm";
@@ -788,7 +788,7 @@ class Taxamo {
    * @return calculateSimpleTaxOut
 	 */
 
-   public function calculateSimpleTax($buyer_credit_card_prefix=null, $buyer_tax_number=null, $product_type=null, $force_country_code=null, $quantity=null, $unit_price=null, $total_amount=null, $tax_deducted=null, $amount=null, $billing_country_code=null, $currency_code, $order_date=null, $b2b_number_service_on_error=null, $b2b_number_service_timeoutms=null, $b2b_number_service_cache_expiry_days=null, $invoice_address_postal_code=null, $invoice_address_region=null, $invoice_address_city=null) {
+   public function calculateSimpleTax($buyer_credit_card_prefix, $buyer_tax_number, $product_type, $force_country_code, $quantity, $unit_price, $total_amount, $tax_deducted, $amount, $billing_country_code, $currency_code, $order_date=null, $b2b_number_service_on_error=null, $b2b_number_service_timeoutms=null, $b2b_number_service_cache_expiry_days=null, $invoice_address_postal_code=null, $invoice_address_region=null, $invoice_address_city=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/tax/calculate";
@@ -881,7 +881,7 @@ class Taxamo {
    * @return validateTaxNumberOut
 	 */
 
-   public function validateTaxNumber($country_code=null, $tax_number) {
+   public function validateTaxNumber($country_code, $tax_number) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/tax/vat_numbers/{tax_number}/validate";
@@ -1050,7 +1050,7 @@ class Taxamo {
    * @return getTransactionsStatsByCountryOut
 	 */
 
-   public function getTransactionsStatsByCountry($global_currency_code=null, $date_from, $date_to) {
+   public function getTransactionsStatsByCountry($global_currency_code, $date_from, $date_to) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/stats/transactions/by_country";
@@ -1300,7 +1300,7 @@ class Taxamo {
    * @return getEuViesReportOut
 	 */
 
-   public function getEuViesReport($format=null, $transformation=null, $eu_country_code, $currency_code=null, $tax_id=null, $start_month, $end_month, $fx_date_type=null) {
+   public function getEuViesReport($format, $transformation, $eu_country_code, $currency_code, $tax_id, $start_month, $end_month, $fx_date_type=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/reports/eu/vies";
@@ -1371,7 +1371,7 @@ class Taxamo {
    * @return getDomesticSummaryReportOut
 	 */
 
-   public function getDomesticSummaryReport($format=null, $country_code, $currency_code=null, $start_month, $end_month, $fx_date_type=null) {
+   public function getDomesticSummaryReport($format, $country_code, $currency_code, $start_month, $end_month, $fx_date_type=null) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/reports/domestic/summary";
@@ -1497,7 +1497,7 @@ class Taxamo {
    * @return getRefundsOut
 	 */
 
-   public function getRefunds($format=null, $moss_country_code=null, $tax_region=null, $date_from) {
+   public function getRefunds($format, $moss_country_code, $tax_region, $date_from) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/refunds";
@@ -1562,7 +1562,7 @@ class Taxamo {
    * @return getSettlementOut
 	 */
 
-   public function getSettlement($format=null, $moss_country_code=null, $tax_country_code=null, $currency_code=null, $moss_tax_id=null, $tax_id=null, $start_month=null, $end_month=null, $quarter) {
+   public function getSettlement($format, $moss_country_code, $tax_country_code, $currency_code, $moss_tax_id, $tax_id, $start_month, $end_month, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/{quarter}";
@@ -1635,7 +1635,7 @@ class Taxamo {
    * @return getSettlementSummaryOut
 	 */
 
-   public function getSettlementSummary($moss_country_code=null, $tax_region=null, $start_month=null, $end_month=null, $quarter) {
+   public function getSettlementSummary($moss_country_code, $tax_region, $start_month, $end_month, $quarter) {
 
   		//parse inputs
   		$resourcePath = "/api/v1/settlement/summary/{quarter}";
